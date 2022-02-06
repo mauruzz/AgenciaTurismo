@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,11 +22,13 @@ public class Venta implements Serializable {
     public int num_venta;
     
     @Basic
-    public String medio_pago;
     public int cantidad;
     
     @Temporal(TemporalType.DATE)
     public Date fecha_venta;
+    
+    @OneToOne
+    private MedioPago medio_pago;
     
     
 // ----------- CONSTRUCTORES
@@ -33,12 +36,13 @@ public class Venta implements Serializable {
     public Venta() {
     }
 
-    public Venta(int num_venta, String medio_pago, int cantidad, Date fecha_venta) {
+    public Venta(int num_venta, int cantidad, Date fecha_venta, MedioPago medio_pago) {
         this.num_venta = num_venta;
-        this.medio_pago = medio_pago;
         this.cantidad = cantidad;
         this.fecha_venta = fecha_venta;
+        this.medio_pago = medio_pago;
     }
+
     
     
 // ---------- SETTERS Y GETTERS 

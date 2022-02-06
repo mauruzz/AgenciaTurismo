@@ -135,5 +135,11 @@ public class ServicioTuristico implements Serializable {
 
     
     
+// ---------- METODOS PROPIOS 
+    
+    
+    
+    
+    
     
 }
