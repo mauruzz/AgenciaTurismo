@@ -44,14 +44,10 @@ public class Controladora {
     
     public void crearServicioTuristico(String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
         double Costo = Double.parseDouble(str_Costo);
-        servTuri.setCosto_servicio(Costo);
         Date Fecha = deStringToDate(str_Fecha);
-        servTuri.setFecha_servicio(Fecha);
-        servTuri.setHabilitado(true);
+        
+        servTuri = emple.crearServicioTuristico(Nombre, Descripcion, Destino, Costo, Fecha);
         
         controlPersis.crearServicioTuristico(servTuri);
         
@@ -65,17 +61,8 @@ public class Controladora {
     public List<ServicioTuristico> getListaServiciosHabilitados () {
         
         List<ServicioTuristico> listaServi = getListaServicios();
-        List<ServicioTuristico> listaServiHabilitados = new ArrayList<ServicioTuristico>();
-                
-        for (ServicioTuristico servi : listaServi) {
-            
-            if (servi.isHabilitado() == true){
-                
-                listaServiHabilitados.add(servi);
-            }
-        }
-                
-        return listaServiHabilitados; 
+        
+        return emple.getListaServiciosHabilitados(listaServi);
     }
     
     public ServicioTuristico getServicioTuristicoById(String str_Id) {
@@ -89,22 +76,17 @@ public class Controladora {
     public void eliminarLogicoServicioTuristico(String str_Id) {
         
         servTuri = getServicioTuristicoById(str_Id);
-        servTuri.setHabilitado(false);
         
-        controlPersis.eliminarLogicoServicioTuristico(servTuri);
+        controlPersis.eliminarLogicoServicioTuristico(emple.eliminarLogicoServicioTuristico(servTuri));
     }
     
     public void editarServicioTuristico(String str_Id, String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
         int Id = Integer.parseInt(str_Id);
-        servTuri.setCodigo_servicio(Id);
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
         double Costo = Double.parseDouble(str_Costo);
-        servTuri.setCosto_servicio(Costo);
         Date Fecha = deStringToDate(str_Fecha);
-        servTuri.setFecha_servicio(Fecha);
+        
+        servTuri = emple.editarServicioTuristico(Id, Nombre, Descripcion, Destino, Costo, Fecha);
         
         controlPersis.editarServicioTuristico(servTuri);
     }

@@ -39,11 +39,12 @@ public class Empleado implements Serializable {
     public List<Venta> listaVentas;
     
     
-// -------------- CONSTRUCTORES
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
     public Empleado() {
     }
-
+    
     public Empleado(int id_empleado, String cargo, double sueldo, boolean habilitado, Usuario usuario, Persona persona, List<Venta> listaVentas) {
         this.id_empleado = id_empleado;
         this.cargo = cargo;
@@ -53,72 +54,72 @@ public class Empleado implements Serializable {
         this.persona = persona;
         this.listaVentas = listaVentas;
     }
+//</editor-fold>
 
     
     
-    
-// ----------- SETTERS Y GETTERS
 
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
     public int getId_empleado() {
         return id_empleado;
     }
-
+    
     public void setId_empleado(int id_empleado) {
         this.id_empleado = id_empleado;
     }
-
+    
     public String getCargo() {
         return cargo;
     }
-
+    
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-
+    
     public double getSueldo() {
         return sueldo;
     }
-
+    
     public void setSueldo(double sueldo) {
         this.sueldo = sueldo;
     }
-
+    
     public boolean isHabilitado() {
         return habilitado;
     }
-
+    
     public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
-
+    
     public Usuario getUsuario() {
         return usuario;
     }
-
+    
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
+    
     public Persona getPersona() {
         return persona;
     }
-
+    
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
+    
     public List<Venta> getListaVentas() {
         return listaVentas;
     }
-
+    
     public void setListaVentas(List<Venta> listaVentas) {
         this.listaVentas = listaVentas;
     }
+//</editor-fold>
 
     
     
-    // ---------- METODOS PROPIOS
-    
+    //<editor-fold defaultstate="collapsed" desc="METODOS PROPIOS DE EMPLEADO">
     public double getFacturado () {
         
         Controladora control = new Controladora ();
@@ -161,10 +162,10 @@ public class Empleado implements Serializable {
                     break;
                 case "monedero":
                     medioPago = monedero;
-                    break;    
+                    break;
                 case "transferencia":
                     medioPago = transferencia;
-                    break;    
+                    break;
             }
             
             if (control.getServicioFromVenta(venta) != null)
@@ -206,18 +207,18 @@ public class Empleado implements Serializable {
                         break;
                     case "monedero":
                         medioPago = monedero;
-                        break;    
+                        break;
                     case "transferencia":
                         medioPago = transferencia;
-                        break;    
+                        break;
                 }
-
+                
                 if (control.getServicioFromVenta(venta) != null)
                     ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * medioPago);
-
+                
                 if (control.getPaqueteFromVenta(venta) != null)
                     ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * medioPago);
-            }    
+            }
         }
         
         return ganancia;
@@ -250,18 +251,18 @@ public class Empleado implements Serializable {
                         break;
                     case "monedero":
                         medioPago = monedero;
-                        break;    
+                        break;
                     case "transferencia":
                         medioPago = transferencia;
-                        break;    
+                        break;
                 }
-
+                
                 if (control.getServicioFromVenta(venta) != null)
                     ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * medioPago);
-
+                
                 if (control.getPaqueteFromVenta(venta) != null)
                     ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * medioPago);
-            }    
+            }
         }
         
         return ganancia;
@@ -277,17 +278,16 @@ public class Empleado implements Serializable {
             if (control.getMesFromDate(venta.getFecha_venta()) == mes) {
                 if (control.getServicioFromVenta(venta) != null)
                     facturado = facturado + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad());
-
+                
                 if (control.getPaqueteFromVenta(venta) != null)
                     facturado = facturado + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad());
-           }
+            }
         }
         
         return facturado;
     }
     
-    
-   public double getFacturadoMedioPago (String medio_Pago) {
+    public double getFacturadoMedioPago (String medio_Pago) {
         
         Controladora control = new Controladora ();
         double facturado = 0;
@@ -297,13 +297,70 @@ public class Empleado implements Serializable {
             if (venta.getMedio_pago().equals(medio_Pago)) {
                 if (control.getServicioFromVenta(venta) != null)
                     facturado = facturado + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad());
-
+                
                 if (control.getPaqueteFromVenta(venta) != null)
                     facturado = facturado + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad());
-           }
+            }
         }
         
         return facturado;
     }
     
+    //</editor-fold>
+    
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS RELACIONADOS CON SERVICIOS TURISTICOS">
+    
+    public ServicioTuristico crearServicioTuristico(String Nombre, String Descripcion, String Destino, double Costo, Date Fecha) {
+        
+        ServicioTuristico servTuri = new ServicioTuristico();
+        
+        servTuri.setNombre(Nombre);
+        servTuri.setDescripcion_breve(Descripcion);
+        servTuri.setDestino_servicio(Destino);
+        servTuri.setCosto_servicio(Costo);
+        servTuri.setFecha_servicio(Fecha);
+        servTuri.setHabilitado(true);
+        
+        return servTuri;
+    }
+    
+    public List<ServicioTuristico> getListaServiciosHabilitados (List<ServicioTuristico> listaServi) {
+        
+        List<ServicioTuristico> listaServiHabilitados = new ArrayList<ServicioTuristico>();
+        
+        for (ServicioTuristico servi : listaServi) {
+            
+            if (servi.isHabilitado() == true){
+                
+                listaServiHabilitados.add(servi);
+            }
+        }
+        
+        return listaServiHabilitados;
+    }
+    
+    public ServicioTuristico eliminarLogicoServicioTuristico(ServicioTuristico servTuri) {
+        
+        servTuri.setHabilitado(false);
+        
+        return servTuri;
+    }
+    
+    public ServicioTuristico editarServicioTuristico(int Id, String Nombre, String Descripcion, String Destino, double Costo, Date Fecha) {
+        
+        ServicioTuristico servTuri = new ServicioTuristico();
+        
+        servTuri.setCodigo_servicio(Id);
+        servTuri.setNombre(Nombre);
+        servTuri.setDescripcion_breve(Descripcion);
+        servTuri.setDestino_servicio(Destino);
+        servTuri.setCosto_servicio(Costo);
+        servTuri.setFecha_servicio(Fecha);
+        
+        return servTuri;
+    }
+//</editor-fold>
+
 }

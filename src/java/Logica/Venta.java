@@ -55,14 +55,6 @@ public class Venta implements Serializable {
         this.num_venta = num_venta;
     }
 
-    public String getMedio_pago() {
-        return medio_pago;
-    }
-
-    public void setMedio_pago(String medio_pago) {
-        this.medio_pago = medio_pago;
-    }
-
     public int getCantidad() {
         return cantidad;
     }
@@ -79,6 +71,14 @@ public class Venta implements Serializable {
         this.fecha_venta = fecha_venta;
     }
 
+    public MedioPago getMedio_pago() {
+        return medio_pago;
+    }
+
+    public void setMedio_pago(MedioPago medio_pago) {
+        this.medio_pago = medio_pago;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
