@@ -22,11 +22,13 @@ public class Controladora {
     Persona perso = new Persona ();
     Cliente clien = new Cliente ();
     Venta venta = new Venta ();
-    int maxServicioXPaquete = 5;
+    int maxServicioXPaquete = 5;  //------ Cantidad maxima de servicios por paquete turistico
+    double descuento = 0.90;  //------ Descuento por realizar compra de paquete turistico
     
     
-// ------------- METODOS LOGIN
     
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS LOGIN">
     public int login(String usuario, String contrasenia) {
         
         List<Usuario> listaUsuarios = controlPersis.getUsuarios();
@@ -36,12 +38,14 @@ public class Controladora {
                 return usu.getId_usuario();
         }
         return 0;
-    }    
+    }
+//</editor-fold>
     
     
+    // ----------------------------------------------------- //
     
-// ------------- METODOS DE SERVICIO TURISTICO
     
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE SERVICIO TURISTICO">
     public void crearServicioTuristico(String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
         double Costo = Double.parseDouble(str_Costo);
@@ -55,7 +59,7 @@ public class Controladora {
     
     public List<ServicioTuristico> getListaServicios () {
         
-        return (this.controlPersis.getServicios()); 
+        return (this.controlPersis.getServicios());
     }
     
     public List<ServicioTuristico> getListaServiciosHabilitados () {
@@ -90,26 +94,26 @@ public class Controladora {
         
         controlPersis.editarServicioTuristico(servTuri);
     }
+//</editor-fold>
 
     
+    // ----------------------------------------------------- //
     
     
-// ------------- METODOS DE PAQUETE TURISTICO
-    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
     public void crearPaqueteTuristico(String Nombre, String Servi_1_Id, String Servi_2_Id, String Servi_3_Id, String Servi_4_Id, String Servi_5_Id) {
         
-        String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id}; 
+        String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
         double costo = 0;
-        double descuento = 0.90;
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
             if (!str_Ids[i].equals("")) {
-            
+                
                 servTuri = getServicioTuristicoById(str_Ids[i]);
                 listaServicios.add(servTuri);
-            }    
+            }
         }
         
         for (ServicioTuristico servi : listaServicios){
@@ -117,18 +121,15 @@ public class Controladora {
             costo = costo + (servi.getCosto_servicio() * descuento);
         }
         
-        paqTuri.setNombre(Nombre);
-        paqTuri.setCosto_paquete(costo);
-        paqTuri.setHabilitado(true);
-        paqTuri.setLista_servicios(listaServicios);
+        paqTuri = emple.crearPaqueteTuristico(Nombre, costo, listaServicios);
         
         controlPersis.crearPaqueteTuristico(paqTuri);
         
     }
     
     public List<PaqueteTuristico> getListaPaquetes (){
-    
-        return (this.controlPersis.getPaquetes()); 
+        
+        return (this.controlPersis.getPaquetes());
     }
     
     public PaqueteTuristico getPaqueteTuristicoById(String str_Id) {
@@ -142,41 +143,30 @@ public class Controladora {
     public List<PaqueteTuristico> getListaPaquetesHabilitados () {
         
         List<PaqueteTuristico> listaPaque = getListaPaquetes();
-        List<PaqueteTuristico> listaPaqueHabilitados = new ArrayList<PaqueteTuristico>();
-                
-        for (PaqueteTuristico paque : listaPaque) {
-            
-            if (paque.isHabilitado() == true){
-                
-                listaPaqueHabilitados.add(paque);
-            }
-        }
-                
-        return listaPaqueHabilitados; 
+        
+        return emple.getListaPaquetesHabilitados(listaPaque);
     }
     
     public void eliminarLogicoPaqueteTuristico(String str_Id) {
         
         paqTuri = getPaqueteTuristicoById(str_Id);
-        paqTuri.setHabilitado(false);
         
-        controlPersis.eliminarLogicoPaqueteTuristico(paqTuri);
+        controlPersis.eliminarLogicoPaqueteTuristico(emple.eliminarLogicoPaqueteTuristico(paqTuri));
     }
     
     public void editarPaqueteTuristico(String str_Id, String Nombre, String str_Servicio_1, String str_Servicio_2, String str_Servicio_3, String str_Servicio_4, String str_Servicio_5) {
         
-        String str_Ids [] = {str_Servicio_1, str_Servicio_2, str_Servicio_3, str_Servicio_4, str_Servicio_5}; 
+        String str_Ids [] = {str_Servicio_1, str_Servicio_2, str_Servicio_3, str_Servicio_4, str_Servicio_5};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
         double costo = 0;
-        double descuento = 0.90;
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
             if (!str_Ids[i].equals("")) {
-            
+                
                 servTuri = getServicioTuristicoById(str_Ids[i]);
                 listaServicios.add(servTuri);
-            }    
+            }
         }
         
         for (ServicioTuristico servi : listaServicios){
@@ -185,14 +175,12 @@ public class Controladora {
         }
         
         int Id = Integer.parseInt(str_Id);
-        paqTuri.setCodigo_paquete(Id);
-        paqTuri.setNombre(Nombre);
-        paqTuri.setLista_servicios(listaServicios);
-        paqTuri.setCosto_paquete(costo);
         
+        paqTuri = emple.editarPaqueteTuristico(Id, Nombre, listaServicios, costo);
         
         controlPersis.editarPaqueteTuristico(paqTuri);
     }
+//</editor-fold>
     
     
     

@@ -39,6 +39,7 @@ public class Empleado implements Serializable {
     public List<Venta> listaVentas;
     
     
+    // ----------------------------------------------------- //
 
 
     //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
@@ -57,6 +58,7 @@ public class Empleado implements Serializable {
 //</editor-fold>
 
     
+    // ----------------------------------------------------- //
     
 
     //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
@@ -117,6 +119,8 @@ public class Empleado implements Serializable {
     }
 //</editor-fold>
 
+    
+    // ----------------------------------------------------- //    
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS PROPIOS DE EMPLEADO">
@@ -309,18 +313,20 @@ public class Empleado implements Serializable {
     //</editor-fold>
     
     
+    // ----------------------------------------------------- //
+    
     
     //<editor-fold defaultstate="collapsed" desc="METODOS RELACIONADOS CON SERVICIOS TURISTICOS">
     
-    public ServicioTuristico crearServicioTuristico(String Nombre, String Descripcion, String Destino, double Costo, Date Fecha) {
+    public ServicioTuristico crearServicioTuristico(String nombre, String descripcion, String destino, double costo, Date fecha) {
         
         ServicioTuristico servTuri = new ServicioTuristico();
         
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
-        servTuri.setCosto_servicio(Costo);
-        servTuri.setFecha_servicio(Fecha);
+        servTuri.setNombre(nombre);
+        servTuri.setDescripcion_breve(descripcion);
+        servTuri.setDestino_servicio(destino);
+        servTuri.setCosto_servicio(costo);
+        servTuri.setFecha_servicio(fecha);
         servTuri.setHabilitado(true);
         
         return servTuri;
@@ -348,19 +354,76 @@ public class Empleado implements Serializable {
         return servTuri;
     }
     
-    public ServicioTuristico editarServicioTuristico(int Id, String Nombre, String Descripcion, String Destino, double Costo, Date Fecha) {
+    public ServicioTuristico editarServicioTuristico(int id, String nombre, String descripcion, String destino, double costo, Date fecha) {
         
         ServicioTuristico servTuri = new ServicioTuristico();
         
-        servTuri.setCodigo_servicio(Id);
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
-        servTuri.setCosto_servicio(Costo);
-        servTuri.setFecha_servicio(Fecha);
+        servTuri.setCodigo_servicio(id);
+        servTuri.setNombre(nombre);
+        servTuri.setDescripcion_breve(descripcion);
+        servTuri.setDestino_servicio(destino);
+        servTuri.setCosto_servicio(costo);
+        servTuri.setFecha_servicio(fecha);
         
         return servTuri;
     }
 //</editor-fold>
 
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
+    public PaqueteTuristico crearPaqueteTuristico(String nombre, double costo, List<ServicioTuristico> listaServicios) {
+        
+        PaqueteTuristico paqTuri = new PaqueteTuristico ();
+        
+        paqTuri.setNombre(nombre);
+        paqTuri.setCosto_paquete(costo);
+        paqTuri.setHabilitado(true);
+        paqTuri.setLista_servicios(listaServicios);
+        
+        return paqTuri;
+    }
+    
+    public List<PaqueteTuristico> getListaPaquetesHabilitados (List<PaqueteTuristico> listaPaque) {
+        
+        List<PaqueteTuristico> listaPaqueHabilitados = new ArrayList<PaqueteTuristico>();
+        
+        for (PaqueteTuristico paque : listaPaque) {
+            
+            if (paque.isHabilitado() == true){
+                
+                listaPaqueHabilitados.add(paque);
+            }
+        }
+        
+        return listaPaqueHabilitados;
+    }
+    
+    public PaqueteTuristico eliminarLogicoPaqueteTuristico(PaqueteTuristico paqTuri) {
+        
+        paqTuri.setHabilitado(false);
+        
+        return paqTuri;
+    }
+    
+    public PaqueteTuristico editarPaqueteTuristico(int id, String nombre, List<ServicioTuristico> listaServicios, double costo) {
+        
+        PaqueteTuristico paqTuri = new PaqueteTuristico ();
+        
+        paqTuri.setCodigo_paquete(id);
+        paqTuri.setNombre(nombre);
+        paqTuri.setLista_servicios(listaServicios);
+        paqTuri.setCosto_paquete(costo);
+        
+        return paqTuri;
+    }
+//</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    
 }
