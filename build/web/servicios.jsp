@@ -31,8 +31,10 @@
     <body>  
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
+        
         if (usuario == null){
             response.sendRedirect("SinLogin.jsp");
         } else {
@@ -40,6 +42,7 @@
             miSesion.setAttribute("control", control);
         
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
+            
             session.removeAttribute("servicio_Id");
             session.removeAttribute("servicio_Nombre");
             session.removeAttribute("servicio_Descripcion");
@@ -50,6 +53,7 @@
 
             %>
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -75,7 +79,9 @@
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
@@ -85,7 +91,6 @@
                                 <a href="servicios.jsp"><img class="buscar-lupa" src="iconos/lupa.png" alt="Buscar servicio" title="Buscar servicio"></a><div class="buscar-input"><input type="text" class="form-control" placeholder="Buscar" name="buscar_servicio" id="buscar_servicio"></div>
                             </h2>      
                         </div>
-
 
                         <% 
                         List<ServicioTuristico> listaServicios = control.getListaServiciosHabilitados();

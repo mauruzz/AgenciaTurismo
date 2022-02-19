@@ -32,6 +32,7 @@
     <body>
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
         
@@ -52,6 +53,7 @@
 
             %>
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -77,7 +79,9 @@
                         </ul>
                     </nav>
                 </div>
+                
                 <!-- Main content -->
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
@@ -93,7 +97,6 @@
                                         </div>
                                     </div> 
 
-                                    <!--      AL ENCONTRAR AL CLIENTE OCUALTAR ESTE BUSCADOR        -->
                                     <div class="col-lg-6 col-md-6 form-group">    
                                         <label class="control-label templatemo-block">Busqueda rápida</label>
                                         <select id="busqueda-rapida-cliente" class="form-control">

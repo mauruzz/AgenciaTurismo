@@ -34,6 +34,7 @@
     <body>  
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
         
@@ -45,6 +46,7 @@
         
 
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
+            
             session.removeAttribute("venta_Id_Venta");
             session.removeAttribute("venta_Id_Cliente");
             session.removeAttribute("venta_Nombre_Cliente");
@@ -57,7 +59,8 @@
             session.removeAttribute("venta_Id_Paquete");
             session.removeAttribute("boton"); 
 
-
+            //--------- DECLARO VARIABLES AUXILIARES
+            
             Cliente clien = new Cliente ();
             Empleado emple = new Empleado (); 
             ServicioTuristico servTuri = new ServicioTuristico ();
@@ -65,9 +68,10 @@
             String producto = "";
             double costo = 0;
 
-
             %>
+            
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -93,7 +97,9 @@
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">

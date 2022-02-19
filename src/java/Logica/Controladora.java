@@ -80,8 +80,9 @@ public class Controladora {
     public void eliminarLogicoServicioTuristico(String str_Id) {
         
         servTuri = getServicioTuristicoById(str_Id);
+        servTuri = emple.eliminarLogicoServicioTuristico(servTuri);
         
-        controlPersis.eliminarLogicoServicioTuristico(emple.eliminarLogicoServicioTuristico(servTuri));
+        controlPersis.eliminarLogicoServicioTuristico(servTuri);
     }
     
     public void editarServicioTuristico(String str_Id, String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
@@ -101,6 +102,7 @@ public class Controladora {
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
+    
     public void crearPaqueteTuristico(String Nombre, String Servi_1_Id, String Servi_2_Id, String Servi_3_Id, String Servi_4_Id, String Servi_5_Id) {
         
         String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id};
@@ -150,8 +152,9 @@ public class Controladora {
     public void eliminarLogicoPaqueteTuristico(String str_Id) {
         
         paqTuri = getPaqueteTuristicoById(str_Id);
+        paqTuri = emple.eliminarLogicoPaqueteTuristico(paqTuri);
         
-        controlPersis.eliminarLogicoPaqueteTuristico(emple.eliminarLogicoPaqueteTuristico(paqTuri));
+        controlPersis.eliminarLogicoPaqueteTuristico(paqTuri);
     }
     
     public void editarPaqueteTuristico(String str_Id, String Nombre, String str_Servicio_1, String str_Servicio_2, String str_Servicio_3, String str_Servicio_4, String str_Servicio_5) {
@@ -188,20 +191,22 @@ public class Controladora {
     
     public void crearEmpleado(String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email, String Usuario, String Contrasenia, String Cargo, String str_Sueldo) {
         
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        crearPersona(perso);
+        
+        /*--------------------------------
+        Creo a Persona y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        perso = emple.crearPersona(Nombre, Apellido, Direccion, dni, fecha, Nacionalidad, Celular, Email);
+        crearPersona(perso);    //Metodo que llama a Persistencia
         emple.setPersona(perso);
         
-        usu.setUsuario(Usuario);
-        usu.setContrasenia(Contrasenia);
+        usu = emple.crearUsuario(Usuario, Contrasenia);
         crearUsuario(usu);
         emple.setUsuario(usu);
         
@@ -214,8 +219,7 @@ public class Controladora {
     
     public Empleado getEmpleadoById(String str_Id) {
         
-        int Id = Integer.parseInt(str_Id);
-        emple = controlPersis.getEmpleadoById(Id);
+        emple = controlPersis.getEmpleadoById(Integer.parseInt(str_Id));
         
         return emple;
     }
@@ -267,24 +271,22 @@ public class Controladora {
     
     public void editarEmpleado(String str_Id, String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email, String Usuario, String Contrasenia, String Cargo, String str_Sueldo) {
         
-        int id_Empleado = Integer.parseInt(str_Id);
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
         
-        perso.setId_Persona(getIdPersonaFromIdEmpleado(id_Empleado));
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        int id_Empleado = Integer.parseInt(str_Id);
+        int id_Persona = getIdPersonaFromIdEmpleado(id_Empleado);
+        int id_Usuario = getIdUsuarioFromIdEmpleado(id_Empleado);
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
+        
+        
+        perso = emple.editarPersona(id_Persona, Nombre, Apellido, dni, Direccion, fecha, Nacionalidad, Celular, Email);
         editarPersona(perso);
         emple.setPersona(perso);
         
-        usu.setId_usuario(getIdUsuarioFromIdEmpleado(id_Empleado));
-        usu.setUsuario(Usuario);
-        usu.setContrasenia(Contrasenia);
+        usu = emple.editarUsuario(id_Usuario, Usuario, Contrasenia);
         editarUsuario(usu);
         emple.setUsuario(usu);
         
@@ -297,10 +299,13 @@ public class Controladora {
     }
     
     
+    // ----------------------------------------------------- //
     
-// ----------------  METODOS DE USUARIO
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE USUARIO">
 
     public void crearUsuario(Usuario usu) {
+        
         controlPersis.crearUsuario(usu);
     }
     
@@ -308,9 +313,13 @@ public class Controladora {
         
         controlPersis.editarUsuario(usu);
     }
+    //</editor-fold>    
     
     
-// ----------------  METODOS DE PERSONA
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PERSONA">
     
     public void crearPersona(Persona perso) {
         
@@ -326,31 +335,40 @@ public class Controladora {
         
         return (this.controlPersis.getPersonas()); 
     }
+    //</editor-fold>
     
-// ----------------  METODOS DE CLIENTE    
     
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE CLIENTE">
+       
     public void crearCliente(String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email) {
         
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        crearPersona(perso);
-        clien.setPersona(perso);
         
-        clien.setHabilitado(true);
+        /*--------------------------------
+        Creo a Persona y se la envio a la persistencia
+        --------------------------------*/ 
         
+        perso = emple.crearPersona(Nombre, Apellido, Direccion, dni, fecha, Nacionalidad, Celular, Email);
+        crearPersona(perso);    //Metodo que llama a Persistencia
+        
+        /*--------------------------------
+        Creo a Cliente asignandole a Persona previamente creada 
+        --------------------------------*/ 
+        
+        clien = emple.crearCliente(perso);
         controlPersis.crearCliente(clien);
     }
     
-    public Cliente getClienteById(String str_Id) {
+    public Cliente getClienteById(int Id) {
         
-        int Id = Integer.parseInt(str_Id);
         clien = controlPersis.getClienteById(Id);
         
         return clien;
@@ -358,15 +376,16 @@ public class Controladora {
     
     public void eliminarLogicoCliente(String str_Id) {
         
-        clien = getClienteById(str_Id);
-        clien.setHabilitado(false);
+        int Id = Integer.parseInt(str_Id);
+        clien = getClienteById(Id);
+        clien = emple.eliminarLogicoCliente(clien);
         
         controlPersis.eliminarLogicoCliente(clien);
     }
     
     public int getIdPersonaFromIdCliente(int Id) {
         
-        clien = controlPersis.getClienteById(Id);
+        clien = getClienteById(Id);
         
         perso = clien.getPersona();
         
@@ -377,25 +396,27 @@ public class Controladora {
     
     public void editarCliente(String str_Id, String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int id_Cliente = Integer.parseInt(str_Id);
-        
-        perso.setId_Persona((int)getIdPersonaFromIdCliente(id_Cliente));
-        
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        int id_Persona = (int)getIdPersonaFromIdCliente(id_Cliente);
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        editarPersona(perso);
-        clien.setPersona(perso);
-                
-        clien.setId_cliente(Integer.parseInt(str_Id));
-        clien.setHabilitado(true);
+            
+        /*--------------------------------
+        Edito a Persona y se la envio a la persistencia
+        --------------------------------*/ 
         
+        perso = emple.editarPersona(id_Persona, Nombre, Apellido, dni, Direccion, fecha, Nacionalidad, Celular, Email);
+        editarPersona(perso);
+        
+        /*--------------------------------
+        Edito a Cliente asignandole a Persona previamente creada 
+        --------------------------------*/ 
+        
+        clien = emple.editarCliente(id_Cliente, perso);
         controlPersis.editarCliente(clien);
     }
     
@@ -407,43 +428,61 @@ public class Controladora {
     public List<Cliente> getListaClientesHabilitados (){
         
         List<Cliente> listaClien = getListaClientes();
-        List<Cliente> listaClienHabilitados = new ArrayList<Cliente>();
-                
-        for (Cliente clien : listaClien) {
-            
-            if (clien.isHabilitado() == true){
-                
-                listaClienHabilitados.add(clien);
-            }
-        }
-                
-        return listaClienHabilitados; 
+        
+        return emple.getListaClientesHabilitados(listaClien); 
     }
+    //</editor-fold>
     
     
+    // ----------------------------------------------------- //
     
-// ----------------  METODOS DE VENTA
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE VENTA">
     
     public void crearVenta(String IdEmpleado, String IdCliente, String ServPaq, String Cantidad, String MedioPago) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         DateTimeFormatter str_Fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date fecha = deStringToDate(str_Fecha.format(LocalDateTime.now()));
-        venta.setFecha_venta(fecha);
+        int cantidad = Integer.parseInt(Cantidad);
+        int Id_Cliente = Integer.parseInt(IdCliente);
         
-        venta.setCantidad(Integer.parseInt(Cantidad));
-        venta.setMedio_pago(MedioPago);
+        /*
+        
+        CREAR ACOPLE ENTRE MEDIO DE PAGO Y VENTA
+        
+        HAY QUE CREAR ABML DE MEDIOS DE PAGO Y MOSTRARLOS LISTADIOS EN LA PARTE DE VENTAS
+        
+        */
+        
+        venta = emple.crearVenta(fecha, cantidad, MedioPago); //ARREGLAR MEDIO DE PAGO
         controlPersis.crearVenta(venta);
+        
+        /*--------------------------------
+        Agrego la venta al Empleado correspondiente
+        --------------------------------*/ 
         
         emple = getEmpleadoById(IdEmpleado);
         emple.getListaVentas().add(venta);
         controlPersis.editarEmpleado(emple);
         
-        clien = getClienteById(IdCliente);
+        /*--------------------------------
+        Agrego la venta al Cliente correspondiente
+        --------------------------------*/ 
+        
+        clien = getClienteById(Id_Cliente);
         clien.getListaVentas().add(venta);
         controlPersis.editarCliente(clien);
         
-        // La Posicion [0] corresponde al tipo de producto (servicio o paquete)
-        // La posicion [1] corresponde al Id del producto
+        /*--------------------------------
+        Agrego la venta al Servicio o PaqueteTuristico que corresponda, donde:
+        
+        La Posicion [0] corresponde al tipo de producto (servicio o paquete)
+        La posicion [1] corresponde al Id del producto
+        --------------------------------*/ 
         String[] vec_ServPaq = ServPaq.split("-");
         
         if (vec_ServPaq[0].equals("servicio")) {
@@ -460,11 +499,9 @@ public class Controladora {
           
     }
     
-    public Venta getVentaById(String str_Id) {
+    public Venta getVentaById(int id) {
         
-        int Id = Integer.parseInt(str_Id);
-        
-        venta = controlPersis.getVentaById(Id);
+        venta = controlPersis.getVentaById(id);
         
         return venta;
     }
@@ -477,78 +514,43 @@ public class Controladora {
     public Cliente getClienteFromVenta(Venta venta_Actual) {
                 
         List<Cliente> listaClientes = getListaClientes();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (Cliente cliente : listaClientes) {
+        clien = emple.getClienteFromVenta(venta_Actual, listaClientes);
             
-            listaVentas = cliente.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return cliente;
-                }
-        }
-        
-        return null;
+        return clien;
     }
     
     public Empleado getEmpleadoFromVenta(Venta venta_Actual) {
         
         List<Empleado> listaEmpleados = getListaEmpleados();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
+        Empleado empleAux = new Empleado ();
         
-        for (Empleado empleado : listaEmpleados) {
-            
-            listaVentas = empleado.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return empleado;
-                }
-        }
+        empleAux = emple.getEmpleadoFromVenta(venta_Actual, listaEmpleados);
         
-        return null;
+        return empleAux;
     }
     
     public ServicioTuristico getServicioFromVenta(Venta venta_Actual) {
         
         List<ServicioTuristico> listaServicios = getListaServicios();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (ServicioTuristico servicio : listaServicios) {
-            
-            listaVentas = servicio.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return servicio;
-                }
-        }
+        servTuri = emple.getServicioFromVenta(venta_Actual, listaServicios);
         
-        return null;
+        return servTuri;
     }
 
     public PaqueteTuristico getPaqueteFromVenta(Venta venta_Actual) {
         
         List<PaqueteTuristico> listaPaquetes = getListaPaquetes();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (PaqueteTuristico paquete : listaPaquetes) {
-            
-            listaVentas = paquete.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return paquete;
-                }
-        }
+        paqTuri = emple.getPaqueteFromVenta(venta_Actual, listaPaquetes);
         
-        return null;
+        return paqTuri;
     }
     
     public void eliminarVenta(String str_Id) {
         
-        venta = getVentaById(str_Id);
+        venta = getVentaById(Integer.parseInt(str_Id));
         
         clien = getClienteFromVenta(venta);
         emple = getEmpleadoFromVenta(venta);
@@ -579,7 +581,7 @@ public class Controladora {
     
     public void editarVenta(String IdVenta, String IdCliente, String ServPaq, String Cantidad, String MedioPago) {
         
-        venta = getVentaById(IdVenta);
+        venta = getVentaById(Integer.parseInt(IdVenta));
         
         //----------- BORRO EL REGISTRO VIEJO
         
@@ -620,12 +622,15 @@ public class Controladora {
         
         controlPersis.editarVenta(venta);
     }
+    //</editor-fold>    
     
     
     
+    // ----------------------------------------------------- //
     
-// ----------------  METODOS PARA MANEJO DE FECHA/DATE    
-
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS PARA MANEJO DE FECHA/DATE   SIN VER">
+    
     //Convierte un String a un tipo DATE en formato dd-MM-yyyy, se puede cambiar el formato a / 
     public static synchronized java.util.Date deStringToDate (String fecha) {
         
@@ -650,6 +655,7 @@ public class Controladora {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("MM"); 
         return Integer.parseInt(formatoFecha.format(fecha));
     }
-
+    //</editor-fold>
+    
     
 }

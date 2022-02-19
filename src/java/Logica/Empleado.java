@@ -62,6 +62,7 @@ public class Empleado implements Serializable {
     
 
     //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+    
     public int getId_empleado() {
         return id_empleado;
     }
@@ -124,6 +125,7 @@ public class Empleado implements Serializable {
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS PROPIOS DE EMPLEADO">
+    
     public double getFacturado () {
         
         Controladora control = new Controladora ();
@@ -316,7 +318,7 @@ public class Empleado implements Serializable {
     // ----------------------------------------------------- //
     
     
-    //<editor-fold defaultstate="collapsed" desc="METODOS RELACIONADOS CON SERVICIOS TURISTICOS">
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE SERVICIOS TURISTICOS">
     
     public ServicioTuristico crearServicioTuristico(String nombre, String descripcion, String destino, double costo, Date fecha) {
         
@@ -374,6 +376,7 @@ public class Empleado implements Serializable {
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
+    
     public PaqueteTuristico crearPaqueteTuristico(String nombre, double costo, List<ServicioTuristico> listaServicios) {
         
         PaqueteTuristico paqTuri = new PaqueteTuristico ();
@@ -422,8 +425,210 @@ public class Empleado implements Serializable {
 //</editor-fold>
     
     
+     // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PERSONA">    
+    
+    public Persona crearPersona(String Nombre, String Apellido, String Direccion, int dni, Date fecha_Nac, String Nacionalidad, String Celular, String Email) {
+        
+        Persona perso = new Persona ();
+        
+        perso.setNombre(Nombre);
+        perso.setApellido(Apellido);
+        perso.setDireccion(Direccion);
+        perso.setFecha_nacimiento(fecha_Nac);
+        perso.setNacionalidad(Nacionalidad);
+        perso.setCelular(Celular);
+        perso.setEmail(Email);
+        
+        return perso;
+    }
+    
+    public Persona editarPersona(int id_Persona, String Nombre, String Apellido, int dni, String Direccion, Date fecha, String Nacionalidad, String Celular, String Email) {
+        
+        Persona perso = new Persona ();
+        
+        perso.setId_Persona(id_Persona);
+        perso.setNombre(Nombre);
+        perso.setApellido(Apellido);
+        perso.setDni(dni);
+        perso.setDireccion(Direccion);
+        perso.setFecha_nacimiento(fecha);
+        perso.setNacionalidad(Nacionalidad);
+        perso.setCelular(Celular);
+        perso.setEmail(Email);
+                
+        return perso;
+    }
+//</editor-fold>
+    
+
     // ----------------------------------------------------- //
     
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE CLIENTE">
+    
+    public Cliente crearCliente(Persona perso) {
+        
+        Cliente clien = new Cliente ();
+        
+        clien.setPersona(perso);
+        clien.setHabilitado(true);
+        
+        return clien;
+    }
+    
+    public Cliente eliminarLogicoCliente(Cliente clien) {
+        
+        clien.setHabilitado(false);
+        
+        return clien;
+    }
+    
+    public Cliente editarCliente(int id_Cliente, Persona perso) {
+        
+        Cliente clien = new Cliente ();
+        
+        clien.setPersona(perso);
+        clien.setId_cliente(id_Cliente);
+        clien.setHabilitado(true);
+        
+        return clien;
+    }
+    
+    public List<Cliente> getListaClientesHabilitados (List<Cliente> listaClien){
+        
+        List<Cliente> listaClienHabilitados = new ArrayList<Cliente>();
+                
+        for (Cliente clien : listaClien) {
+            
+            if (clien.isHabilitado() == true){
+                
+                listaClienHabilitados.add(clien);
+            }
+        }
+                
+        return listaClienHabilitados; 
+    }
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE USUARIO">
+    
+    public Usuario crearUsuario(String Usuario, String Contrasenia) {
+        
+        Usuario usu = new Usuario ();
+        
+        usu.setUsuario(Usuario);
+        usu.setContrasenia(Contrasenia);
+        
+        return usu;
+    }
+    
+    public Usuario editarUsuario(int id_Usuario, String Usuario, String Contrasenia) {
+        
+        Usuario usu = new Usuario ();
+        
+        usu.setId_usuario(id_Usuario);
+        usu.setUsuario(Usuario);
+        usu.setContrasenia(Contrasenia);
+        
+        return usu;
+    }
+    
+    //</editor-fold>  
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE VENTA">
+    
+    public Venta crearVenta(Date fecha, int cantidad, MedioPago medio_pago) {
+        
+        Venta venta = new Venta ();
+        
+        venta.setFecha_venta(fecha);
+        venta.setCantidad(cantidad);
+        venta.setMedio_pago(medio_pago);
+        
+        return venta;
+    }
+    
+    public Cliente getClienteFromVenta(Venta venta_Actual, List<Cliente> listaClientes) {
+        
+        List<Venta> listaVentas = new ArrayList<Venta> ();
+
+        for (Cliente cliente : listaClientes) {
+            
+            listaVentas = cliente.getListaVentas();
+        
+            for (Venta venta : listaVentas){
+                if (venta.equals(venta_Actual)) {
+                    return cliente;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    public Empleado getEmpleadoFromVenta(Venta venta_Actual, List<Empleado> listaEmpleados) {
+        
+        List<Venta> listaVentas = new ArrayList<Venta> ();
+
+        for (Empleado empleado : listaEmpleados) {
+            
+            listaVentas = empleado.getListaVentas();
+            
+            for (Venta venta : listaVentas)
+                if (venta.equals(venta_Actual)) {
+                    return empleado;
+                }
+        }
+        
+        return null;
+    }
+    
+    public ServicioTuristico getServicioFromVenta(Venta venta_Actual, List<ServicioTuristico> listaServicios) {
+        
+        List<Venta> listaVentas = new ArrayList<Venta> ();
+
+        for (ServicioTuristico servicio : listaServicios) {
+            
+            listaVentas = servicio.getListaVentas();
+            
+            for (Venta venta : listaVentas)
+                if (venta.equals(venta_Actual)) {
+                    return servicio;
+                }
+        }
+        
+        return null;
+    }
+    
+    public PaqueteTuristico getPaqueteFromVenta(Venta venta_Actual, List<PaqueteTuristico> listaPaquetes) {
+        
+        List<Venta> listaVentas = new ArrayList<Venta> ();
+
+        for (PaqueteTuristico paquete : listaPaquetes) {
+            
+            listaVentas = paquete.getListaVentas();
+            
+            for (Venta venta : listaVentas)
+                if (venta.equals(venta_Actual)) {
+                    return paquete;
+                }
+        }
+        
+        return null;
+    }
+    
+    //</editor-fold>  
     
     
 }

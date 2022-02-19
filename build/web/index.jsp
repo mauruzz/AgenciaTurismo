@@ -34,6 +34,7 @@
     <body> 
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) miSesion.getAttribute("usuario");
 
@@ -51,7 +52,9 @@
             for (Empleado empleado : listaEmpleados){
                 ganancia_Diaria = ganancia_Diaria + empleado.getGananciaDiaria();
             }
-
+            
+            //------------ CALCULO GANANCIA FACTURADO MENSUAL
+            
             int meses = 12;
             double [] vec_Ganancia_Mensual  = new double [meses];
             double [] vec_Facturado_Mensual  = new double [meses];
@@ -71,6 +74,7 @@
             }
 
             // --------------SEPARO VENTAS POR MEDIO DE PAGO
+            
             String [] medios_Pago = {"efectivo", "credito", "debito", "monedero", "transferencia"};
             double [] vec_Facturado_Medio_Pago  = new double [medios_Pago.length];
 
@@ -85,11 +89,10 @@
                 }
             }
 
-
-
             %>
 
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -116,7 +119,9 @@
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
 
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
@@ -128,6 +133,7 @@
                                     <h3 class="text-uppercase"><%=ganancia_Diaria%></h3><hr>  
 
                                     <!-- GRAFICO DE TORTA -->
+                                    
                                     <div id="pie_chart_div" class="templatemo-chart"></div> 
 
                                 </div>            
@@ -164,7 +170,7 @@
                                     </div>                          
                                 </div>
                             </div>           
-                        </div> <!-- Second row ends -->
+                        </div> 
 
                         <div class="templatemo-flex-row flex-content-row">
                             <div class="col-1">
@@ -216,7 +222,8 @@
                                     </div>
 
 
-                                    <!--   GRAFICO DE BARRAS   -->            
+                                    <!--   GRAFICO DE BARRAS   -->  
+                                    
                                     <div class="templatemo-flex-row flex-content-row">
                                         <div class="col-1 col-lg-6 col-md-12">
                                           <div id="columnchart_material" class="templatemo-chart"></div> <!-- Bar chart div -->

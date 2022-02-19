@@ -32,6 +32,7 @@
     <body>  
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
 
@@ -43,13 +44,16 @@
 
 
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
+            
             session.removeAttribute("paquete_Id");
             session.removeAttribute("paquete_Nombre");
             session.removeAttribute("paquete_Costo");
             session.removeAttribute("paquete_Lista_Servicios");
             session.removeAttribute("boton");
             %>
+            
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -75,7 +79,9 @@
                         </ul>  
                     </nav>
                 </div>
+                
               <!-- Main content --> 
+              
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
