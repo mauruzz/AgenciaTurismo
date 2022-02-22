@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Usuario.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/web/ventas.jsp</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Persistencia/ControladoraPersistencia.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Controladora.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/MedioPago.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Servlets/ServletVentas.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Persistencia/MedioPagoJpaController.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/web/factura.jsp</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Empleado.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Venta.java</file>
         </group>
     </open-files>
 </project-private>

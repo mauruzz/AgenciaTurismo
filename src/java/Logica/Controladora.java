@@ -22,6 +22,7 @@ public class Controladora {
     Persona perso = new Persona ();
     Cliente clien = new Cliente ();
     Venta venta = new Venta ();
+    MedioPago medioPago = new MedioPago ();
     int maxServicioXPaquete = 5;  //------ Cantidad maxima de servicios por paquete turistico
     double descuento = 0.90;  //------ Descuento por realizar compra de paquete turistico
     
@@ -449,16 +450,13 @@ public class Controladora {
         Date fecha = deStringToDate(str_Fecha.format(LocalDateTime.now()));
         int cantidad = Integer.parseInt(Cantidad);
         int Id_Cliente = Integer.parseInt(IdCliente);
+        medioPago = getMedioPagoById(Integer.parseInt(MedioPago));
         
-        /*
+        /*--------------------------------
+        Creo venta
+        --------------------------------*/ 
         
-        CREAR ACOPLE ENTRE MEDIO DE PAGO Y VENTA
-        
-        HAY QUE CREAR ABML DE MEDIOS DE PAGO Y MOSTRARLOS LISTADIOS EN LA PARTE DE VENTAS
-        
-        */
-        
-        venta = emple.crearVenta(fecha, cantidad, MedioPago); //ARREGLAR MEDIO DE PAGO
+        venta = emple.crearVenta(fecha, cantidad, medioPago); 
         controlPersis.crearVenta(venta);
         
         /*--------------------------------
@@ -582,6 +580,7 @@ public class Controladora {
     public void editarVenta(String IdVenta, String IdCliente, String ServPaq, String Cantidad, String MedioPago) {
         
         venta = getVentaById(Integer.parseInt(IdVenta));
+        medioPago = getMedioPagoById(Integer.parseInt(MedioPago));
         
         //----------- BORRO EL REGISTRO VIEJO
         
@@ -601,7 +600,7 @@ public class Controladora {
         // ------------ AGREGO EL NUEVO REGISTRO
         
         venta.setCantidad(Integer.parseInt(Cantidad));
-        venta.setMedio_pago(MedioPago);
+        venta.setMedio_pago(medioPago);
         
         // La Posicion [0] corresponde al tipo de producto (servicio o paquete)
         // La posicion [1] corresponde al Id del producto
@@ -625,6 +624,33 @@ public class Controladora {
     //</editor-fold>    
     
     
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIOPAGO">
+    
+    
+    public List<MedioPago> getListaMediosPago() {
+        
+        return (this.controlPersis.getMediosPago()); 
+    }
+    
+    public List<MedioPago> getListaMediosPagoHabilitados () {
+        
+        List<MedioPago> listaMediosPago = getListaMediosPago();
+        
+        return emple.getListaMediosPagoHabilitados(listaMediosPago);
+    }
+    
+    public MedioPago getMedioPagoById(int Id) {
+        
+        medioPago = controlPersis.getMedioPagoById(Id);
+        
+        return medioPago;
+    }
+    
+    //</editor-fold>  
+        
     
     // ----------------------------------------------------- //
     

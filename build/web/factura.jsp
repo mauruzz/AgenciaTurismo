@@ -1,3 +1,4 @@
+<%@page import="Logica.MedioPago"%>
 <%@page import="Logica.Cliente"%>
 <%@page import="Logica.PaqueteTuristico"%>
 <%@page import="Logica.ServicioTuristico"%>
@@ -50,6 +51,9 @@
 
             //----------- BUSCO TODOS LOS CLIENTES
             List<Cliente> listaClientesHabilitados = control.getListaClientesHabilitados();
+            
+            //----------- BUSCO TODOS LOS CLIENTES
+            List<MedioPago> listaMediosPagoHabilitados = control.getListaMediosPagoHabilitados();
 
             %>
             <!-- Left column -->
@@ -170,11 +174,17 @@
                                     <div class="col-lg-6 col-md-6 form-group">                  
                                         <label class="control-label templatemo-block">Medio de pago</label>
                                         <select id="medioPago" name="medioPago" class="form-control">
-                                            <option value="efectivo" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("efectivo")){%> selected <%}%> >Efectivo</option>
-                                            <option value="debito" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("debito")){%> selected <%}%>>Débito</option>
-                                            <option value="credito" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("credito")){%> selected <%}%>>Crédito</option>
-                                            <option value="monedero" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("monedero")){%> selected <%}%>>Monedero</option>
-                                            <option value="transferencia" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("transferencia")){%> selected <%}%>>Transferencia</option>                      
+                                            
+                                            <option value="">-----  Medios de pago  -----</option> 
+                                            
+                                            <%
+                                            for (MedioPago medioPago: listaMediosPagoHabilitados){
+                                            %>
+                                            <option value="<%=medioPago.getCodigo_medio_pago()%>" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals(Integer.toString(medioPago.getCodigo_medio_pago()))){%> selected <%}%> ><%=medioPago.getNombre()%>&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<%=medioPago.getDescuento()%>&nbsp;)</option>
+                                            <%
+                                            }
+                                            %>  
+                                            
                                         </select> 
                                     </div> 
                                 </div>

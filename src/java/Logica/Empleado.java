@@ -145,40 +145,16 @@ public class Empleado implements Serializable {
     
     public double getGanancia () {
         
-        double medioPago = 0;
-        double efectivo = 1;
-        double debito = 0.97;
-        double credito = 0.81;
-        double monedero = 1;
-        double transferencia = 0.9755;
-        
         Controladora control = new Controladora ();
         double ganancia = 0;
         
         for (Venta venta : listaVentas){
-            switch (venta.getMedio_pago()) {
-                case "efectivo":
-                    medioPago = efectivo;
-                    break;
-                case "debito":
-                    medioPago = debito;
-                    break;
-                case "credito":
-                    medioPago = credito;
-                    break;
-                case "monedero":
-                    medioPago = monedero;
-                    break;
-                case "transferencia":
-                    medioPago = transferencia;
-                    break;
-            }
             
             if (control.getServicioFromVenta(venta) != null)
-                ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * medioPago);
+                ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
             
             if (control.getPaqueteFromVenta(venta) != null)
-                ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * medioPago);
+                ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
         }
         
         return ganancia;
@@ -189,41 +165,17 @@ public class Empleado implements Serializable {
         DateTimeFormatter str_Fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date fecha_Hoy = deStringToDate(str_Fecha.format(LocalDateTime.now()));
         
-        double medioPago = 0;
-        double efectivo = 1;
-        double debito = 0.97;
-        double credito = 0.81;
-        double monedero = 1;
-        double transferencia = 0.9755;
-        
         Controladora control = new Controladora ();
         double ganancia = 0;
         
         for (Venta venta : listaVentas){
             if (venta.getFecha_venta().equals(fecha_Hoy)) {
-                switch (venta.getMedio_pago()) {
-                    case "efectivo":
-                        medioPago = efectivo;
-                        break;
-                    case "debito":
-                        medioPago = debito;
-                        break;
-                    case "credito":
-                        medioPago = credito;
-                        break;
-                    case "monedero":
-                        medioPago = monedero;
-                        break;
-                    case "transferencia":
-                        medioPago = transferencia;
-                        break;
-                }
                 
                 if (control.getServicioFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * medioPago);
+                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
                 
                 if (control.getPaqueteFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * medioPago);
+                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
             }
         }
         
@@ -233,41 +185,17 @@ public class Empleado implements Serializable {
     
     public double getGananciaMensual (int mes){
         
-        double medioPago = 0;
-        double efectivo = 1;
-        double debito = 0.97;
-        double credito = 0.81;
-        double monedero = 1;
-        double transferencia = 0.9755;
-        
         Controladora control = new Controladora ();
         double ganancia = 0;
         
         for (Venta venta : listaVentas){
             if (control.getMesFromDate(venta.getFecha_venta()) == mes) {
-                switch (venta.getMedio_pago()) {
-                    case "efectivo":
-                        medioPago = efectivo;
-                        break;
-                    case "debito":
-                        medioPago = debito;
-                        break;
-                    case "credito":
-                        medioPago = credito;
-                        break;
-                    case "monedero":
-                        medioPago = monedero;
-                        break;
-                    case "transferencia":
-                        medioPago = transferencia;
-                        break;
-                }
                 
                 if (control.getServicioFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * medioPago);
+                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
                 
                 if (control.getPaqueteFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * medioPago);
+                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
             }
         }
         
@@ -629,6 +557,56 @@ public class Empleado implements Serializable {
     }
     
     //</editor-fold>  
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIO DE PAGO">
+    
+    public MedioPago crearMedioPago(String nombre, double descuento) {
+        
+        MedioPago medioPago = new MedioPago ();
+        
+        medioPago.setNombre(nombre);
+        medioPago.setHabilitado(true);
+        medioPago.setDescuento(descuento);
+        
+        return medioPago;
+    }
+    
+    public MedioPago editarMedioPago(MedioPago medioPago, String nombre, double descuento) {
+        
+        medioPago.setNombre(nombre);
+        medioPago.setDescuento(descuento);
+        
+        return medioPago;
+    }
+    
+    public MedioPago deshabilitarMedioPago(MedioPago medioPago) {
+        
+        medioPago.setHabilitado(false);
+        
+        return medioPago;
+    }
+    
+    public List<MedioPago> getListaMediosPagoHabilitados (List<MedioPago> listaMediosPago) {
+        
+        List<MedioPago> listaMediosPagoHabilitados = new ArrayList<MedioPago>();
+        
+        for (MedioPago medioPago : listaMediosPago) {
+            
+            if (medioPago.isHabilitado() == true){
+                
+                listaMediosPagoHabilitados.add(medioPago);
+            }
+        }
+        
+        return listaMediosPagoHabilitados;
+    }
+    
+    //</editor-fold>  
+    
     
     
 }
