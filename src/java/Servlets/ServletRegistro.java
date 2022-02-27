@@ -68,7 +68,7 @@ public class ServletRegistro extends HttpServlet {
                 }
                 
                 if(request.getParameter("cuenta").equals("cliente")){
-                    clien = control.getClienteById(request.getParameter("id"));
+                    clien = control.getClienteById(Integer.parseInt(request.getParameter("id")));
 
 
                     request.getSession().setAttribute("registro_Id", request.getParameter("id"));

@@ -8,13 +8,15 @@
     <class>Logica.Usuario</class>
     <class>Logica.Venta</class>
     <class>Logica.Cliente</class>
+    <class>Logica.MedioPago</class>
+    <class>Logica.Persona</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/agenciaturismo?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="ageturismo"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="123456"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
