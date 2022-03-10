@@ -151,10 +151,10 @@ public class Empleado implements Serializable {
         for (Venta venta : listaVentas){
             
             if (control.getServicioFromVenta(venta) != null)
-                ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
             
             if (control.getPaqueteFromVenta(venta) != null)
-                ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
         }
         
         return ganancia;
@@ -172,10 +172,10 @@ public class Empleado implements Serializable {
             if (venta.getFecha_venta().equals(fecha_Hoy)) {
                 
                 if (control.getServicioFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
                 
                 if (control.getPaqueteFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
             }
         }
         
@@ -192,10 +192,10 @@ public class Empleado implements Serializable {
             if (control.getMesFromDate(venta.getFecha_venta()) == mes) {
                 
                 if (control.getServicioFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                    ganancia = ganancia + (control.getServicioFromVenta(venta).getCosto_servicio() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
                 
                 if (control.getPaqueteFromVenta(venta) != null)
-                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * venta.getMedio_pago().getDescuento());
+                    ganancia = ganancia + (control.getPaqueteFromVenta(venta).getCosto_paquete() * venta.getCantidad() * (1 - venta.getMedio_pago().getDescuento() / 100));
             }
         }
         

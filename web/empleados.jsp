@@ -1,9 +1,9 @@
 <%@page import="Logica.Empleado"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -106,14 +106,14 @@
                                 <table class="table table-striped table-bordered templatemo-user-table">
                                     <thead>
                                         <tr>
-                                            <td><a href="" class="white-text templatemo-sort-by">NÂ° de vendedor <span class="caret"></span></a></td>
+                                            <td><a href="" class="white-text templatemo-sort-by">N° de vendedor <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Nombre <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Apellido <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Celular <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Email <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Cargo <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Sueldo <span class="caret"></span></a></td>
-                                            <td>AcciÃ³n</td>
+                                            <td>Acción</td>
                                         </tr>
                                     </thead>
                                     <tbody>

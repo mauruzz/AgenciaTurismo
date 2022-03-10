@@ -4,9 +4,9 @@
 <%@page import="Logica.Empleado"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -146,7 +146,7 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td>NÂ°</td>
+                                                    <td>N°</td>
                                                     <td>Nombre</td>
                                                     <td>Apellido</td>
                                                     <td>Facturado</td>
@@ -272,8 +272,8 @@
                   data.addColumn('number', 'Monto ');
                   data.addRows([
                     ['Efectivo', <%=vec_Facturado_Medio_Pago[0]%>],
-                    ['CrÃ©dito', <%=vec_Facturado_Medio_Pago[1]%>],
-                    ['DÃ©bito', <%=vec_Facturado_Medio_Pago[2]%>],
+                    ['Crédito', <%=vec_Facturado_Medio_Pago[1]%>],
+                    ['Débito', <%=vec_Facturado_Medio_Pago[2]%>],
                     ['Monedero', <%=vec_Facturado_Medio_Pago[3]%>],
                     ['Transferencia', <%=vec_Facturado_Medio_Pago[4]%>]
                   ]);

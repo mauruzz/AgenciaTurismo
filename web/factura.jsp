@@ -4,9 +4,9 @@
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,19 +91,19 @@
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
                         <div class="templatemo-content-widget white-bg">
-                            <h2 class="margin-bottom-30">Factura <%if(session.getAttribute("venta_Id_Venta") != null){%>NÂ° <%= session.getAttribute("venta_Id_Venta")%><%}%></h2>
+                            <h2 class="margin-bottom-30">Factura <%if(session.getAttribute("venta_Id_Venta") != null){%>N° <%= session.getAttribute("venta_Id_Venta")%><%}%></h2>
                             <form action="ServletVentas" class="templatemo-login-form" method="POST">
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputIdCliente">NÂ° Cliente</label>
-                                        <input type="text" class="form-control margin-bottom-5" id="inputIdCliente" name="inputIdCliente" placeholder="Numero de identificaciÃ³n"  <%if(session.getAttribute("venta_Id_Cliente") != null){%>value="<%= session.getAttribute("venta_Id_Cliente")%>"<%}%>>
+                                        <label for="inputIdCliente">N° Cliente</label>
+                                        <input type="text" class="form-control margin-bottom-5" id="inputIdCliente" name="inputIdCliente" placeholder="Numero de identificación"  <%if(session.getAttribute("venta_Id_Cliente") != null){%>value="<%= session.getAttribute("venta_Id_Cliente")%>"<%}%>>
                                         <div class="form-group text-left">
                                             <input type="submit" value="Seleccionar" name="boton_Form_Factura_Selecionar" class="templatemo-blue-button">
                                         </div>
                                     </div> 
 
                                     <div class="col-lg-6 col-md-6 form-group">    
-                                        <label class="control-label templatemo-block">Busqueda rÃ¡pida</label>
+                                        <label class="control-label templatemo-block">Busqueda rápida</label>
                                         <select id="busqueda-rapida-cliente" class="form-control">
 
                                             <option value="">-----  Clientes  -----</option> 
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputDireccion">DirecciÃ³n</label>
+                                        <label for="inputDireccion">Dirección</label>
                                         <input type="text" class="form-control" id="inputDireccion" name="inputDireccion" placeholder="Av. Siempreviva 742" <%if(session.getAttribute("venta_Direccion_Cliente") != null){%>value="<%= session.getAttribute("venta_Direccion_Cliente")%>"<%}%>>                  
                                     </div>
                                     <div class="col-lg-6 col-md-6 form-group">                  

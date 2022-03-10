@@ -1,6 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
             <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,7 +34,7 @@
                 <h1>ARGENTOUR</h1>
             </header>
             <div class="form-group centrar">
-                <label>Usuario o contraseÃ±a incorrectos. <a href="login.jsp" class="link-negro">Volver</a></label>
+                <label>Usuario o contraseña incorrectos. <a href="login.jsp" class="link-negro">Volver</a></label>
             </div>
         </div>
     </body>

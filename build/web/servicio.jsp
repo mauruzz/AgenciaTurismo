@@ -1,7 +1,7 @@
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +79,7 @@
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
                                         <label for="inputId">Id</label>
-                                        <input type="text" class="form-control" name="inputId" id="inputId" placeholder="Numero de identificaci贸n" title="Identificador generado de forma autom谩tica" <%if(session.getAttribute("servicio_Id") != null){%>value="<%= session.getAttribute("servicio_Id")%>"<%}%> disabled>
+                                        <input type="text" class="form-control" name="inputId" id="inputId" placeholder="Numero de identificaci髇" title="Identificador generado de forma autom醫ica" <%if(session.getAttribute("servicio_Id") != null){%>value="<%= session.getAttribute("servicio_Id")%>"<%}%> disabled>
                                     </div> 
                                 </div>
                                 <div class="row form-group">
@@ -88,8 +88,8 @@
                                         <input type="text" class="form-control" id="inputNombre" name="inputNombre" placeholder="Hotel Continental" title="Nombre del servicio" <%if(session.getAttribute("servicio_Nombre") != null){%>value="<%= session.getAttribute("servicio_Nombre")%>"<%}%>>                  
                                     </div>
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputDescripcion">Descripci贸n</label>
-                                        <textarea class="form-control text-box-formulario" id="inputDescripcion" name="inputDescripcion" placeholder="Breve descripci贸n del servicio" form="form-servicio" title="Breve descipci贸n del servicio"><%if(session.getAttribute("servicio_Descripcion") != null){%><%= session.getAttribute("servicio_Descripcion")%><%}%></textarea>                  
+                                        <label for="inputDescripcion">Descripci髇</label>
+                                        <textarea class="form-control text-box-formulario" id="inputDescripcion" name="inputDescripcion" placeholder="Breve descripci髇 del servicio" form="form-servicio" title="Breve descipci髇 del servicio"><%if(session.getAttribute("servicio_Descripcion") != null){%><%= session.getAttribute("servicio_Descripcion")%><%}%></textarea>                  
                                     </div> 
                                 </div>
                                 <div class="row form-group">

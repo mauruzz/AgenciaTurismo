@@ -6,9 +6,9 @@
 <%@page import="Logica.Venta"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -116,14 +116,14 @@
                                 <table class="table table-striped table-bordered templatemo-user-table">
                                     <thead>
                                         <tr>
-                                            <td><a href="" class="white-text templatemo-sort-by">NÂ° de factura<span class="caret"></span></a></td>
+                                            <td><a href="" class="white-text templatemo-sort-by">N° de factura<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Fecha<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Nombre de cliente<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Servicio/Paquete<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Vendedor<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Medio de pago<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Costo<span class="caret"></span></a></td>
-                                            <td>AcciÃ³n</td>
+                                            <td>Acción</td>
                                         </tr>
                                     </thead>
                                     <tbody>
