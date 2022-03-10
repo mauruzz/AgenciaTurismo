@@ -89,7 +89,7 @@
                                     <div class="col-lg-6 col-md-6 form-group">
                                         <label class="control-label templatemo-block">Habilitado</label> 
                                         <div class="templatemo-block margin-top-10">
-                                            <input type="checkbox" name="checkHabilitado" id="checkHabilitado" value="1" <%if((session.getAttribute("medio_pago_Habilitado") != null) && (session.getAttribute("medio_pago_Habilitado").equals("1"))){%>checked<%}%>>
+                                            <input type="checkbox" name="checkHabilitado" id="checkHabilitado" value="1" <%if((session.getAttribute("medio_pago_Habilitado") != null) && (session.getAttribute("medio_pago_Habilitado").equals(true))){%>checked<%}%>>
                                             <label for="checkHabilitado" class="font-weight-400"><span></span></label>
                                         </div>                 
                                     </div>    

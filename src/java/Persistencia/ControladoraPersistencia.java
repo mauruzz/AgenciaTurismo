@@ -397,6 +397,23 @@ public class ControladoraPersistencia {
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIOPAGO">   
     
+    public void crearMedioPago(MedioPago medioPago) {
+        
+        try{
+            jpaMedio.create(medioPago);
+        }catch (Exception ex){
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void editarMedioPago(MedioPago medioPago) {
+        try {
+            jpaMedio.edit(medioPago);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<MedioPago> getMediosPago() {
         
         try{

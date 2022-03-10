@@ -15,7 +15,7 @@ public class ServletMedioPago extends HttpServlet {
     
     // ---------- VARIABLES GLOBALES
     
-    Controladora control = new Controladora();
+    Controladora control = new Controladora ();
     MedioPago medio_pago = new MedioPago ();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -33,16 +33,16 @@ public class ServletMedioPago extends HttpServlet {
         
         if(request.getParameter("mostrar") != null){
             if(request.getParameter("mostrar").equals("ok")){
-
+                
                 medio_pago = control.getMedioPagoById(Integer.parseInt(request.getParameter("id")));
-
+                
                 request.getSession().setAttribute("medio_pago_Id", request.getParameter("id"));
                 request.getSession().setAttribute("medio_pago_Habilitado", medio_pago.isHabilitado());
                 request.getSession().setAttribute("medio_pago_Nombre", medio_pago.getNombre());
                 request.getSession().setAttribute("medio_pago_Descuento", medio_pago.getDescuento());
                 request.getSession().setAttribute("boton", "Mostrar");
                 
-                response.sendRedirect("mediosPago.jsp");
+                response.sendRedirect("medioPago.jsp");
             }
         }
         
@@ -79,30 +79,34 @@ public class ServletMedioPago extends HttpServlet {
         if (request.getParameter("boton_Form_Medio_Pago").equals("Guardar")){
             
             String Nombre = request.getParameter("inputNombre");
-            String Descripcion = request.getParameter("inputDescripcion");
-            String Destino = request.getParameter("inputDestino");
-            String Costo = request.getParameter("inputCosto");
-            String Fecha = request.getParameter("inputFecha");
+            String Descuento = request.getParameter("inputDescuento");
+            String Habilitado = "0";
+                    
+            if (request.getParameter("checkHabilitado") != null){
+                Habilitado = "1";
+            }
+            
+            control.crearMedioPago(Nombre, Descuento, Habilitado);        
 
-            control.crearServicioTuristico(Nombre, Descripcion, Destino, Costo, Fecha);        
-
-            response.sendRedirect("servicios.jsp");
+            response.sendRedirect("mediosPago.jsp");
         }
         
         // -------------- EDITO EL REGISTRO
         
         if (request.getParameter("boton_Form_Medio_Pago").equals("Editar")){
             
-            String Id = (String) request.getSession().getAttribute("servicio_Id");
-            String Nombre = request.getParameter("inputNombre");
-            String Descripcion = request.getParameter("inputDescripcion");
-            String Destino = request.getParameter("inputDestino");
-            String Costo = request.getParameter("inputCosto");
-            String Fecha = request.getParameter("inputFecha");
+            String id = (String) request.getSession().getAttribute("medio_pago_Id");
+            String nombre = request.getParameter("inputNombre");
+            String descuento = request.getParameter("inputDescuento");
+            String habilitado = "0";
+                    
+            if (request.getParameter("checkHabilitado") != null){
+                habilitado = "1";
+            }
+            
+            control.editarMedioPago(id, nombre, descuento, habilitado);        
 
-            control.editarServicioTuristico(Id, Nombre, Descripcion, Destino, Costo, Fecha);        
-
-            response.sendRedirect("servicios.jsp");
+            response.sendRedirect("mediosPago.jsp");
         }
         
     }

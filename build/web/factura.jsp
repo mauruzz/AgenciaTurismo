@@ -181,7 +181,7 @@
                                             <%
                                             for (MedioPago medioPago: listaMediosPagoHabilitados){
                                             %>
-                                            <option value="<%=medioPago.getCodigo_medio_pago()%>" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals(Integer.toString(medioPago.getCodigo_medio_pago()))){%> selected <%}%> ><%=medioPago.getNombre()%>&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<%=medioPago.getDescuento()%>&nbsp;)</option>
+                                            <option value="<%=medioPago.getCodigo_medio_pago()%>" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(((MedioPago)session.getAttribute("venta_Medio_Pago")).equals(medioPago)){%> selected <%}%> ><%=medioPago.getNombre()%>&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<%=medioPago.getDescuento()%>&nbsp;)</option>
                                             <%
                                             }
                                             %>  

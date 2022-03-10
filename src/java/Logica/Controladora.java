@@ -629,6 +629,56 @@ public class Controladora {
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIOPAGO">
     
+    public void crearMedioPago(String nombre, String str_descuento, String str_habilitado) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        double descuento = Double.parseDouble(str_descuento);
+        boolean habilitado = false;
+        if (str_habilitado.equals("1")){
+            habilitado=true;
+        }   
+        
+        /*--------------------------------
+        Creo a MedioPago y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        medioPago = emple.crearMedioPago(nombre, descuento, habilitado);
+        controlPersis.crearMedioPago(medioPago);        //Metodo que llama a Persistencia
+        
+    }
+    
+    public void editarMedioPago(String str_id, String nombre, String str_descuento, String str_habilitado) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int id = Integer.parseInt(str_id);
+        double descuento = Double.parseDouble(str_descuento);
+        boolean habilitado = false;
+        if (str_habilitado.equals("1")){
+            habilitado = true;
+        }   
+        
+        /*--------------------------------
+        Busco a MedioPago y le cargo las modificaciones
+        --------------------------------*/ 
+        
+        medioPago = getMedioPagoById(id);
+        medioPago.setNombre(nombre);
+        medioPago.setDescuento(descuento);
+        medioPago.setHabilitado(habilitado);
+        
+        /*--------------------------------
+        Envío todo a la persistencia
+        --------------------------------*/ 
+        
+        controlPersis.editarMedioPago(medioPago); 
+        
+    }
     
     public List<MedioPago> getListaMediosPago() {
         

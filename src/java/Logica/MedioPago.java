@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -74,5 +75,39 @@ public class MedioPago implements Serializable {
     
 //</editor-fold>
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MedioPago other = (MedioPago) obj;
+        if (this.codigo_medio_pago != other.codigo_medio_pago) {
+            return false;
+        }
+        if (this.habilitado != other.habilitado) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.descuento) != Double.doubleToLongBits(other.descuento)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

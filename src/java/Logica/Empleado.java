@@ -365,6 +365,7 @@ public class Empleado implements Serializable {
         perso.setNombre(Nombre);
         perso.setApellido(Apellido);
         perso.setDireccion(Direccion);
+        perso.setDni(dni);
         perso.setFecha_nacimiento(fecha_Nac);
         perso.setNacionalidad(Nacionalidad);
         perso.setCelular(Celular);
@@ -496,6 +497,7 @@ public class Empleado implements Serializable {
             listaVentas = cliente.getListaVentas();
         
             for (Venta venta : listaVentas){
+                
                 if (venta.equals(venta_Actual)) {
                     return cliente;
                 }
@@ -564,12 +566,12 @@ public class Empleado implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIO DE PAGO">
     
-    public MedioPago crearMedioPago(String nombre, double descuento) {
+    public MedioPago crearMedioPago(String nombre, double descuento, boolean habilitado) {
         
         MedioPago medioPago = new MedioPago ();
         
         medioPago.setNombre(nombre);
-        medioPago.setHabilitado(true);
+        medioPago.setHabilitado(habilitado);
         medioPago.setDescuento(descuento);
         
         return medioPago;

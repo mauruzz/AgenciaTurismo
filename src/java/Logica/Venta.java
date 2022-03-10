@@ -107,14 +107,19 @@ public class Venta implements Serializable {
         if (this.cantidad != other.cantidad) {
             return false;
         }
-        if (!Objects.equals(this.medio_pago, other.medio_pago)) {
+        if (!Objects.equals(this.fecha_venta, other.fecha_venta)) {
             return false;
         }
-        if (!Objects.equals(this.fecha_venta, other.fecha_venta)) {
+        if (!Objects.equals(this.medio_pago, other.medio_pago)) {
             return false;
         }
         return true;
     }
+
+    
+    
+    
+    
     
     
     

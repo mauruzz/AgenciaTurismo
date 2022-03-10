@@ -1,3 +1,4 @@
+<%@page import="Logica.MedioPago"%>
 <%@page import="Logica.PaqueteTuristico"%>
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="Logica.Empleado"%>
@@ -65,6 +66,7 @@
             Empleado emple = new Empleado (); 
             ServicioTuristico servTuri = new ServicioTuristico ();
             PaqueteTuristico paqTuri = new PaqueteTuristico ();
+            MedioPago medioPago = new MedioPago ();
             String producto = "";
             double costo = 0;
 
@@ -132,7 +134,7 @@
                                         for (Venta venta : listaVentas) {
                                             clien = control.getClienteFromVenta(venta);
                                             emple = control.getEmpleadoFromVenta(venta);
-
+                                            
                                             servTuri = control.getServicioFromVenta(venta);
                                             
                                             if (servTuri != null) {
@@ -153,7 +155,7 @@
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=clien.getPersona().getNombre()%>&nbsp;<%=clien.getPersona().getApellido()%></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=producto%></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=emple.getPersona().getNombre()%>&nbsp;<%=emple.getPersona().getApellido()%></a></td>
-                                            <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=venta.getMedio_pago()%></a></td>
+                                            <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=venta.getMedio_pago().getNombre() %></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=(costo*venta.getCantidad())%></a></td>
                                             <td><a href="ServletVentas?mostrar=ok&editar=ok&id=<%=venta.getNum_venta()%>" class="templatemo-edit-btn">Editar</a><a href="ServletVentas?eliminar=ok&id=<%=venta.getNum_venta()%>" class="templatemo-eliminar-btn">Eliminar</a></td>
                                         </tr>  

@@ -46,10 +46,10 @@
 
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
             
-            session.removeAttribute("paquete_Id");
-            session.removeAttribute("paquete_Nombre");
-            session.removeAttribute("paquete_Costo");
-            session.removeAttribute("paquete_Lista_Servicios");
+            session.removeAttribute("medio_pago_Id");
+            session.removeAttribute("medio_pago_Habilitado");
+            session.removeAttribute("medio_pago_Nombre");
+            session.removeAttribute("medio_pago_Descuento");
             session.removeAttribute("boton");
             %>
             
@@ -106,7 +106,7 @@
                                     
                                     -->
                                     <!--    RENGLON SIN TACHO DE BASURA     --> 
-                                    <div class="panel-heading"><h2><a href="ServletMedioPago?mostrar=ok&id=<%=medioPago.getCodigo_medio_pago()%>" class="link-blanco"><%=medioPago.getNombre()%><span></span><%=medioPago.getDescuento()%></a><a href="ServletMedioPago?mostrar=ok&editar=ok&id=<%=medioPago.getCodigo_medio_pago()%>" class="buscar-lupa"><img src="iconos/lapiz-blanco.png"></a></h2></div>
+                                    <div class="panel-heading"><h2><a href="ServletMedioPago?mostrar=ok&id=<%=medioPago.getCodigo_medio_pago()%>" class="link-blanco"><%=medioPago.getNombre()%><span>&nbsp;&nbsp;&nbsp;</span><%=medioPago.getDescuento()%>%</a><a href="ServletMedioPago?mostrar=ok&editar=ok&id=<%=medioPago.getCodigo_medio_pago()%>" class="buscar-lupa"><img src="iconos/lapiz-blanco.png"></a></h2></div>
                                 </div>
                             </div>
                         </div>
