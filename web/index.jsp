@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="Logica.MedioPago"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -75,8 +77,27 @@
 
             // --------------SEPARO VENTAS POR MEDIO DE PAGO
             
+            List<MedioPago> listaMediosPago = new ArrayList<> ();
+            listaMediosPago = control.getListaMediosPago();
+            
+            double [] vec_Facturado_Medio_Pago  = new double [listaMediosPago.size()];
+            
+            for (int i = 0; i < listaMediosPago.size(); i++) {
+                vec_Facturado_Medio_Pago [i] = 0;
+            }
+
+            for (int i = 0; i < listaMediosPago.size(); i++) {
+                for (Empleado empleado : listaEmpleados){
+
+                    vec_Facturado_Medio_Pago [i] = vec_Facturado_Medio_Pago [i] + empleado.getFacturadoMedioPago(listaMediosPago.get(i));
+                }
+            }
+            
+            
+            /*
             String [] medios_Pago = {"efectivo", "credito", "debito", "monedero", "transferencia"};
             double [] vec_Facturado_Medio_Pago  = new double [medios_Pago.length];
+                        
 
             for (int i = 0; i < medios_Pago.length; i++) {
                 vec_Facturado_Medio_Pago [i] = 0;
@@ -88,8 +109,11 @@
                     vec_Facturado_Medio_Pago [i] = vec_Facturado_Medio_Pago [i] + empleado.getFacturadoMedioPago(medios_Pago[i]);
                 }
             }
-
-            %>
+            */
+            
+        
+        
+        %>
 
             <!-- Left column -->
             
@@ -246,93 +270,95 @@
             <script src="js/jquery-migrate-1.2.1.min.js"></script> <!--  jQuery Migrate Plugin -->
             <script src="https://www.google.com/jsapi"></script> <!-- Google Chart -->
             <script>
-              /* Google Chart 
-              -------------------------------------------------------------------*/
-              // Load the Visualization API and the piechart package.
-              google.load('visualization', '1.0', {'packages':['corechart']});
+                /* Google Chart 
+                -------------------------------------------------------------------*/
+                // Load the Visualization API and the piechart package.
+                google.load('visualization', '1.0', {'packages':['corechart']});
 
-              // Set a callback to run when the Google Visualization API is loaded.
-              google.setOnLoadCallback(drawChart); 
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.setOnLoadCallback(drawChart); 
 
-              // Callback that creates and populates a data table,
-              // instantiates the pie chart, passes in the data and
-              // draws it.
-
-
-
-              google.charts.load('current', {'packages':['bar']});
-              google.charts.setOnLoadCallback(drawChart);
-
-
-              function drawChart() {
-
-                  // Create the data table.
-                  var data = new google.visualization.DataTable();
-                  data.addColumn('string', 'Topping');
-                  data.addColumn('number', 'Monto ');
-                  data.addRows([
-                    ['Efectivo', <%=vec_Facturado_Medio_Pago[0]%>],
-                    ['Crédito', <%=vec_Facturado_Medio_Pago[1]%>],
-                    ['Débito', <%=vec_Facturado_Medio_Pago[2]%>],
-                    ['Monedero', <%=vec_Facturado_Medio_Pago[3]%>],
-                    ['Transferencia', <%=vec_Facturado_Medio_Pago[4]%>]
-                  ]);
-
-                  // Set chart options
-                  var options = {'title':'Medios de pago elegidos'};
-
-                  // Instantiate and draw our chart, passing in some options.
-                  var pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
-                  pieChart.draw(data, options);
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
 
 
 
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart);
 
-                var data = google.visualization.arrayToDataTable([
-                  ['Mes', 'Facturado', 'Ganancia'],
-                  ['Enero', <%=vec_Facturado_Mensual[0]%>, <%=vec_Ganancia_Mensual[0]%>],
-                  ['Febrero', <%=vec_Facturado_Mensual[1]%>, <%=vec_Ganancia_Mensual[1]%>],
-                  ['Marzo', <%=vec_Facturado_Mensual[2]%>, <%=vec_Ganancia_Mensual[2]%>],
-                  ['Abril', <%=vec_Facturado_Mensual[3]%>, <%=vec_Ganancia_Mensual[3]%>],
-                  ['Mayo', <%=vec_Facturado_Mensual[4]%>, <%=vec_Ganancia_Mensual[4]%>],
-                  ['Junio', <%=vec_Facturado_Mensual[5]%>, <%=vec_Ganancia_Mensual[5]%>],
-                  ['Julio', <%=vec_Facturado_Mensual[6]%>, <%=vec_Ganancia_Mensual[6]%>],
-                  ['Agosto', <%=vec_Facturado_Mensual[7]%>, <%=vec_Ganancia_Mensual[7]%>],
-                  ['Septiembre', <%=vec_Facturado_Mensual[8]%>, <%=vec_Ganancia_Mensual[8]%>],
-                  ['Octubre', <%=vec_Facturado_Mensual[9]%>, <%=vec_Ganancia_Mensual[9]%>],
-                  ['Noviembre', <%=vec_Facturado_Mensual[10]%>, <%=vec_Ganancia_Mensual[10]%>],
-                  ['Diciembre', <%=vec_Facturado_Mensual[11]%>, <%=vec_Ganancia_Mensual[11]%>],
-                ]);
 
-                var options = {
-                  chart: {
-                    title: ''
-                  }
-                };
+                function drawChart() {
 
-                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Monto ');
+                    data.addRows([
+                        <%
+                        for (int i = 0; i < listaMediosPago.size(); i++) {
+                        %>
+                            ['<%=listaMediosPago.get(i).getNombre()%>', <%=vec_Facturado_Medio_Pago[i]%>],
+                        <%
+                        }
+                        %>         
+                    ]);
 
-                chart.draw(data, google.charts.Bar.convertOptions(options));
-              }
+                    // Set chart options
+                    var options = {'title':'Medios de pago elegidos'};
 
-              $(document).ready(function(){
-                if($.browser.mozilla) {
-                  //refresh page on browser resize
-                  // http://www.sitepoint.com/jquery-refresh-page-browser-resize/
-                  $(window).bind('resize', function(e)
-                  {
-                    if (window.RT) clearTimeout(window.RT);
-                    window.RT = setTimeout(function()
-                    {
-                      this.location.reload(false); /* false to get page from cache */
-                    }, 200);
-                  });      
-                } else {
-                  $(window).resize(function(){
-                    drawChart();
-                  });  
-                }   
-              });
+                    // Instantiate and draw our chart, passing in some options.
+                    var pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+                    pieChart.draw(data, options);
+
+
+
+
+                    var data = google.visualization.arrayToDataTable([
+                        ['Mes', 'Facturado', 'Ganancia'],
+                        ['Enero', <%=vec_Facturado_Mensual[0]%>, <%=vec_Ganancia_Mensual[0]%>],
+                        ['Febrero', <%=vec_Facturado_Mensual[1]%>, <%=vec_Ganancia_Mensual[1]%>],
+                        ['Marzo', <%=vec_Facturado_Mensual[2]%>, <%=vec_Ganancia_Mensual[2]%>],
+                        ['Abril', <%=vec_Facturado_Mensual[3]%>, <%=vec_Ganancia_Mensual[3]%>],
+                        ['Mayo', <%=vec_Facturado_Mensual[4]%>, <%=vec_Ganancia_Mensual[4]%>],
+                        ['Junio', <%=vec_Facturado_Mensual[5]%>, <%=vec_Ganancia_Mensual[5]%>],
+                        ['Julio', <%=vec_Facturado_Mensual[6]%>, <%=vec_Ganancia_Mensual[6]%>],
+                        ['Agosto', <%=vec_Facturado_Mensual[7]%>, <%=vec_Ganancia_Mensual[7]%>],
+                        ['Septiembre', <%=vec_Facturado_Mensual[8]%>, <%=vec_Ganancia_Mensual[8]%>],
+                        ['Octubre', <%=vec_Facturado_Mensual[9]%>, <%=vec_Ganancia_Mensual[9]%>],
+                        ['Noviembre', <%=vec_Facturado_Mensual[10]%>, <%=vec_Ganancia_Mensual[10]%>],
+                        ['Diciembre', <%=vec_Facturado_Mensual[11]%>, <%=vec_Ganancia_Mensual[11]%>],
+                    ]);
+
+                    var options = {
+                        chart: {
+                            title: ''
+                        }
+                    };
+
+                    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                }
+
+                $(document).ready(function(){
+                    if($.browser.mozilla) {
+                        //refresh page on browser resize
+                        // http://www.sitepoint.com/jquery-refresh-page-browser-resize/
+                        $(window).bind('resize', function(e)
+                        {
+                            if (window.RT) clearTimeout(window.RT);
+                            window.RT = setTimeout(function()
+                            {
+                                this.location.reload(false); /* false to get page from cache */
+                            }, 200);
+                        });      
+                    } else {
+                        $(window).resize(function(){
+                            drawChart();
+                        });  
+                    }   
+                });
 
             </script>
             <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->

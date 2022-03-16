@@ -23,8 +23,12 @@ public class MedioPago implements Serializable {
     private boolean habilitado;
     private double descuento;
     
+    
+    
+    // ----------------------------------------------------- //
 
-//<editor-fold defaultstate="collapsed" desc="CONTRUCTORES">
+
+    //<editor-fold defaultstate="collapsed" desc="CONTRUCTORES">
     
     public MedioPago() {
     }
@@ -36,10 +40,13 @@ public class MedioPago implements Serializable {
         this.descuento = descuento;
     }
     
-//</editor-fold>
+    //</editor-fold>
     
-    
-//<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+
+    // ----------------------------------------------------- //
+
+
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
     
     public int getCodigo_medio_pago() {
         return codigo_medio_pago;
@@ -73,8 +80,12 @@ public class MedioPago implements Serializable {
         this.descuento = descuento;
     }
     
-//</editor-fold>
+    //</editor-fold>
 
+    
+    // ----------------------------------------------------- //
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

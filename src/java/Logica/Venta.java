@@ -31,8 +31,12 @@ public class Venta implements Serializable {
     private MedioPago medio_pago;
     
     
-// ----------- CONSTRUCTORES
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
+    
     public Venta() {
     }
 
@@ -43,10 +47,14 @@ public class Venta implements Serializable {
         this.medio_pago = medio_pago;
     }
 
+    //</editor-fold>
     
-    
-// ---------- SETTERS Y GETTERS 
+     
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+    
     public int getNum_venta() {
         return num_venta;
     }
@@ -78,6 +86,12 @@ public class Venta implements Serializable {
     public void setMedio_pago(MedioPago medio_pago) {
         this.medio_pago = medio_pago;
     }
+    
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
     
     @Override
     public int hashCode() {
@@ -116,10 +130,6 @@ public class Venta implements Serializable {
         return true;
     }
 
-    
-    
-    
-    
     
     
     

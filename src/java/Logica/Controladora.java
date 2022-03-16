@@ -30,27 +30,54 @@ public class Controladora {
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS LOGIN">
+    
     public int login(String usuario, String contrasenia) {
         
         List<Usuario> listaUsuarios = controlPersis.getUsuarios();
+        boolean usuHabilitado = false;
         
         for (Usuario usu : listaUsuarios) {
             if(usu.getUsuario().equals(usuario) && usu.getContrasenia().equals(contrasenia))
+                /*
+                usuHabilitado = validarUsuario (usu.getId_usuario());
+            
+                if (usuHabilitado) {
+                
+                }
+            }*/
                 return usu.getId_usuario();
         }
         return 0;
     }
-//</editor-fold>
+    
+    public boolean validarUsuario(int idUsuario) {
+        
+        //      TERMINAR !!
+        
+        //      RECORDAR TOCAR EL SERVLET TAMBIEN
+        
+        return false;
+    }
+    //</editor-fold>
     
     
     // ----------------------------------------------------- //
     
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE SERVICIO TURISTICO">
+    
     public void crearServicioTuristico(String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
         
         double Costo = Double.parseDouble(str_Costo);
         Date Fecha = deStringToDate(str_Fecha);
+        
+        /*--------------------------------
+        Creo el ServicioTuristico y lo mando a la persistencia
+        --------------------------------*/ 
         
         servTuri = emple.crearServicioTuristico(Nombre, Descripcion, Destino, Costo, Fecha);
         
@@ -64,6 +91,9 @@ public class Controladora {
     }
     
     public List<ServicioTuristico> getListaServiciosHabilitados () {
+        /*--------------------------------
+        Busco la lista completa de servicios, se la paso a empleado para que la filtre y retorne los habilitados
+        --------------------------------*/ 
         
         List<ServicioTuristico> listaServi = getListaServicios();
         
@@ -72,13 +102,22 @@ public class Controladora {
     
     public ServicioTuristico getServicioTuristicoById(String str_Id) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int Id = Integer.parseInt(str_Id);
+        
         servTuri = controlPersis.getServicioTuristicoById(Id);
         
         return servTuri;
     }
     
     public void eliminarLogicoServicioTuristico(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        ServicioTuristico se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         servTuri = getServicioTuristicoById(str_Id);
         servTuri = emple.eliminarLogicoServicioTuristico(servTuri);
@@ -88,15 +127,24 @@ public class Controladora {
     
     public void editarServicioTuristico(String str_Id, String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int Id = Integer.parseInt(str_Id);
         double Costo = Double.parseDouble(str_Costo);
         Date Fecha = deStringToDate(str_Fecha);
+        
+        /*--------------------------------
+        Edito el registro y lo envío a la persistencia
+        --------------------------------*/ 
         
         servTuri = emple.editarServicioTuristico(Id, Nombre, Descripcion, Destino, Costo, Fecha);
         
         controlPersis.editarServicioTuristico(servTuri);
     }
-//</editor-fold>
+    
+    //</editor-fold>
 
     
     // ----------------------------------------------------- //
@@ -106,9 +154,17 @@ public class Controladora {
     
     public void crearPaqueteTuristico(String Nombre, String Servi_1_Id, String Servi_2_Id, String Servi_3_Id, String Servi_4_Id, String Servi_5_Id) {
         
+        /*--------------------------------
+        Variables locales
+        --------------------------------*/ 
+        
         String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
         double costo = 0;
+
+        /*--------------------------------
+        Cargo los ServicioTuristico en una lista segun las IDs pedidas
+        --------------------------------*/ 
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
@@ -119,10 +175,18 @@ public class Controladora {
             }
         }
         
+        /*--------------------------------
+        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
+        --------------------------------*/ 
+        
         for (ServicioTuristico servi : listaServicios){
             
             costo = costo + (servi.getCosto_servicio() * descuento);
         }
+        
+        /*--------------------------------
+        Creo el PaqueteTuristico y lo mando a la persistencia
+        --------------------------------*/ 
         
         paqTuri = emple.crearPaqueteTuristico(Nombre, costo, listaServicios);
         
@@ -135,22 +199,34 @@ public class Controladora {
         return (this.controlPersis.getPaquetes());
     }
     
-    public PaqueteTuristico getPaqueteTuristicoById(String str_Id) {
-        
-        int Id = Integer.parseInt(str_Id);
-        paqTuri = controlPersis.getPaqueteTuristicoById(Id);
-        
-        return paqTuri;
-    }
-    
     public List<PaqueteTuristico> getListaPaquetesHabilitados () {
+        /*--------------------------------
+        Busco la lista completa de paquetes, se la paso a empleado para que la filtre y retorne los habilitados
+        --------------------------------*/ 
         
         List<PaqueteTuristico> listaPaque = getListaPaquetes();
         
         return emple.getListaPaquetesHabilitados(listaPaque);
     }
-    
+        
+    public PaqueteTuristico getPaqueteTuristicoById(String str_Id) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int Id = Integer.parseInt(str_Id);
+        
+        paqTuri = controlPersis.getPaqueteTuristicoById(Id);
+        
+        return paqTuri;
+    }
+
     public void eliminarLogicoPaqueteTuristico(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        PaqueteTuristico se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         paqTuri = getPaqueteTuristicoById(str_Id);
         paqTuri = emple.eliminarLogicoPaqueteTuristico(paqTuri);
@@ -160,9 +236,18 @@ public class Controladora {
     
     public void editarPaqueteTuristico(String str_Id, String Nombre, String str_Servicio_1, String str_Servicio_2, String str_Servicio_3, String str_Servicio_4, String str_Servicio_5) {
         
+        /*--------------------------------
+        Variables locales
+        --------------------------------*/ 
+        
+        int Id = Integer.parseInt(str_Id);
         String str_Ids [] = {str_Servicio_1, str_Servicio_2, str_Servicio_3, str_Servicio_4, str_Servicio_5};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
         double costo = 0;
+        
+        /*--------------------------------
+        Cargo los ServicioTuristico en una lista segun las IDs pedidas
+        --------------------------------*/ 
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
@@ -173,22 +258,31 @@ public class Controladora {
             }
         }
         
+        /*--------------------------------
+        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
+        --------------------------------*/ 
+        
         for (ServicioTuristico servi : listaServicios){
             
             costo = costo + (servi.getCosto_servicio() * descuento);
         }
         
-        int Id = Integer.parseInt(str_Id);
+        /*--------------------------------
+        Edito el PaqueteTuristico y lo mando a la persistencia
+        --------------------------------*/ 
         
         paqTuri = emple.editarPaqueteTuristico(Id, Nombre, listaServicios, costo);
         
         controlPersis.editarPaqueteTuristico(paqTuri);
     }
-//</editor-fold>
+    
+    //</editor-fold>
     
     
+    // ----------------------------------------------------- //
     
-// ------------- METODOS DE EMPLEADO
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE EMPLEADO">
     
     public void crearEmpleado(String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email, String Usuario, String Contrasenia, String Cargo, String str_Sueldo) {
         
@@ -205,12 +299,20 @@ public class Controladora {
         
         perso = emple.crearPersona(Nombre, Apellido, Direccion, dni, fecha, Nacionalidad, Celular, Email);
         crearPersona(perso);    //Metodo que llama a Persistencia
-        emple.setPersona(perso);
+        
+        /*--------------------------------
+        Creo a Usuario y se la envio a la persistencia
+        --------------------------------*/ 
         
         usu = emple.crearUsuario(Usuario, Contrasenia);
         crearUsuario(usu);
-        emple.setUsuario(usu);
         
+        /*--------------------------------
+        Asigno atributos del empleado y envio el Empleado a la persistencia
+        --------------------------------*/ 
+        
+        emple.setPersona(perso);
+        emple.setUsuario(usu);
         emple.setCargo(Cargo);
         emple.setSueldo(Double.parseDouble(str_Sueldo));
         emple.setHabilitado(true);
@@ -226,6 +328,10 @@ public class Controladora {
     }
     
     public void eliminarLogicoEmpleado(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        Empleado se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         emple = getEmpleadoById(str_Id);
         emple.setHabilitado(false);
@@ -282,15 +388,26 @@ public class Controladora {
         int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
         
+        /*--------------------------------
+        Edito a Persona y se la envio a la persistencia
+        --------------------------------*/ 
         
         perso = emple.editarPersona(id_Persona, Nombre, Apellido, dni, Direccion, fecha, Nacionalidad, Celular, Email);
         editarPersona(perso);
-        emple.setPersona(perso);
+        
+        /*--------------------------------
+        Edito a Usuario y se la envio a la persistencia
+        --------------------------------*/ 
         
         usu = emple.editarUsuario(id_Usuario, Usuario, Contrasenia);
         editarUsuario(usu);
-        emple.setUsuario(usu);
         
+        /*--------------------------------
+        Asigno atributos editados del empleado y envio el Empleado a la persistencia
+        --------------------------------*/ 
+        
+        emple.setUsuario(usu);
+        emple.setPersona(perso);
         emple.setId_empleado(id_Empleado);
         emple.setCargo(Cargo);
         emple.setSueldo(Double.parseDouble(str_Sueldo));
@@ -298,6 +415,8 @@ public class Controladora {
         
         controlPersis.editarEmpleado(emple);
     }
+    
+    //</editor-fold>
     
     
     // ----------------------------------------------------- //
@@ -314,6 +433,19 @@ public class Controladora {
         
         controlPersis.editarUsuario(usu);
     }
+    
+    
+    /*
+    
+    IMPORTANTE !! 
+    
+    FALTA SEGURIDAD PARA QUE LOS EMPLEAOS DESHABILITADOS NO SE PUEDAN CONECTAR
+    HAYQ UE MODIFICAR LA SEGURIDAD DE CADA PAGINA Y LA DEL SERVLET
+    
+    */
+    
+    
+    
     //</editor-fold>    
     
     
@@ -336,6 +468,7 @@ public class Controladora {
         
         return (this.controlPersis.getPersonas()); 
     }
+    
     //</editor-fold>
     
     
@@ -361,7 +494,7 @@ public class Controladora {
         crearPersona(perso);    //Metodo que llama a Persistencia
         
         /*--------------------------------
-        Creo a Cliente asignandole a Persona previamente creada 
+        Creo Cliente, asigno atributos y lo envío a la persistencia 
         --------------------------------*/ 
         
         clien = emple.crearCliente(perso);
@@ -376,6 +509,10 @@ public class Controladora {
     }
     
     public void eliminarLogicoCliente(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        Cliente se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         int Id = Integer.parseInt(str_Id);
         clien = getClienteById(Id);
@@ -733,5 +870,7 @@ public class Controladora {
     }
     //</editor-fold>
     
+    
+    // ----------------------------------------------------- //
     
 }

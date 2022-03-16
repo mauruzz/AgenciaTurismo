@@ -3,16 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/web/medioPago.jsp</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/ServicioTuristico.java</file>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Persistencia/ControladoraPersistencia.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/PaqueteTuristico.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Usuario.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Controladora.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/MedioPago.java</file>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Servlets/ServletMedioPago.java</file>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Persistencia/MedioPagoJpaController.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Cliente.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Empleado.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Persona.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Venta.java</file>
-            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/web/mediosPago.jsp</file>
         </group>
     </open-files>
 </project-private>

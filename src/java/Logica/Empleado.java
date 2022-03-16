@@ -39,10 +39,12 @@ public class Empleado implements Serializable {
     public List<Venta> listaVentas;
     
     
+    
     // ----------------------------------------------------- //
 
 
     //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
+    
     public Empleado() {
     }
     
@@ -221,7 +223,7 @@ public class Empleado implements Serializable {
         return facturado;
     }
     
-    public double getFacturadoMedioPago (String medio_Pago) {
+    public double getFacturadoMedioPago (MedioPago medio_Pago) {
         
         Controladora control = new Controladora ();
         double facturado = 0;
@@ -491,11 +493,11 @@ public class Empleado implements Serializable {
     public Cliente getClienteFromVenta(Venta venta_Actual, List<Cliente> listaClientes) {
         
         List<Venta> listaVentas = new ArrayList<Venta> ();
-
+        
         for (Cliente cliente : listaClientes) {
             
             listaVentas = cliente.getListaVentas();
-        
+            
             for (Venta venta : listaVentas){
                 
                 if (venta.equals(venta_Actual)) {
@@ -608,6 +610,9 @@ public class Empleado implements Serializable {
     }
     
     //</editor-fold>  
+    
+    
+    // ----------------------------------------------------- //
     
     
     
