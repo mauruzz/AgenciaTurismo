@@ -38,6 +38,20 @@ public class ServletLogin extends HttpServlet {
             miSesion.setAttribute("control", control);
             miSesion.setAttribute("idUsuario", id_sesion_Activa);
             
+            
+            
+            /*
+            
+            IMPORTANTE: 
+            
+            MEJORAR SISTEMA DE LOGIN 
+            PONER EN LA SESION SOLAMENTE LA ID DEL USUARIO Y LA DEL EMPLEADO (CREAR LOS METODOS NECESARIOS)
+            DE SER POSIBLE ENVIAR LOS OBJETOS COMO EN EL CASO DE "CONTROL"
+            
+            
+            */
+                       
+            
             Empleado empleado = new Empleado ();
             List<Empleado> listaEmpleados = control.getListaEmpleadosHabilitados();
             for (Empleado emple : listaEmpleados) {

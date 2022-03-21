@@ -57,7 +57,8 @@ public class Empleado implements Serializable {
         this.persona = persona;
         this.listaVentas = listaVentas;
     }
-//</editor-fold>
+
+    //</editor-fold>
 
     
     // ----------------------------------------------------- //
@@ -299,7 +300,8 @@ public class Empleado implements Serializable {
         
         return servTuri;
     }
-//</editor-fold>
+    
+    //</editor-fold>
 
     
     // ----------------------------------------------------- //
@@ -307,12 +309,26 @@ public class Empleado implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
     
-    public PaqueteTuristico crearPaqueteTuristico(String nombre, double costo, List<ServicioTuristico> listaServicios) {
+    public PaqueteTuristico crearPaqueteTuristico(String nombre, double descuento, List<ServicioTuristico> listaServicios) {
         
+        double costo = 0;
         PaqueteTuristico paqTuri = new PaqueteTuristico ();
         
-        paqTuri.setNombre(nombre);
+        /*--------------------------------
+        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
+        --------------------------------*/ 
+        
+        for (ServicioTuristico servi : listaServicios){
+            
+            costo = costo + (servi.getCosto_servicio() * descuento);
+        }
+        
+        /*--------------------------------
+        Asigno valores
+        --------------------------------*/ 
+        
         paqTuri.setCosto_paquete(costo);
+        paqTuri.setNombre(nombre);
         paqTuri.setHabilitado(true);
         paqTuri.setLista_servicios(listaServicios);
         
@@ -341,9 +357,23 @@ public class Empleado implements Serializable {
         return paqTuri;
     }
     
-    public PaqueteTuristico editarPaqueteTuristico(int id, String nombre, List<ServicioTuristico> listaServicios, double costo) {
+    public PaqueteTuristico editarPaqueteTuristico(int id, String nombre, List<ServicioTuristico> listaServicios, double descuento) {
         
+        double costo = 0;
         PaqueteTuristico paqTuri = new PaqueteTuristico ();
+        
+        /*--------------------------------
+        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
+        --------------------------------*/ 
+        
+        for (ServicioTuristico servi : listaServicios){
+            
+            costo = costo + (servi.getCosto_servicio() * descuento);
+        }
+        
+        /*--------------------------------
+        Asigno valores
+        --------------------------------*/ 
         
         paqTuri.setCodigo_paquete(id);
         paqTuri.setNombre(nombre);
@@ -352,7 +382,8 @@ public class Empleado implements Serializable {
         
         return paqTuri;
     }
-//</editor-fold>
+
+    //</editor-fold>
     
     
      // ----------------------------------------------------- //
@@ -392,7 +423,8 @@ public class Empleado implements Serializable {
                 
         return perso;
     }
-//</editor-fold>
+    
+    //</editor-fold>
     
 
     // ----------------------------------------------------- //
@@ -442,6 +474,7 @@ public class Empleado implements Serializable {
                 
         return listaClienHabilitados; 
     }
+    
     //</editor-fold>
     
     

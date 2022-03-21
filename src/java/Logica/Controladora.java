@@ -160,7 +160,6 @@ public class Controladora {
         
         String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
-        double costo = 0;
 
         /*--------------------------------
         Cargo los ServicioTuristico en una lista segun las IDs pedidas
@@ -176,19 +175,10 @@ public class Controladora {
         }
         
         /*--------------------------------
-        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
-        --------------------------------*/ 
-        
-        for (ServicioTuristico servi : listaServicios){
-            
-            costo = costo + (servi.getCosto_servicio() * descuento);
-        }
-        
-        /*--------------------------------
         Creo el PaqueteTuristico y lo mando a la persistencia
         --------------------------------*/ 
         
-        paqTuri = emple.crearPaqueteTuristico(Nombre, costo, listaServicios);
+        paqTuri = emple.crearPaqueteTuristico(Nombre, descuento, listaServicios);
         
         controlPersis.crearPaqueteTuristico(paqTuri);
         
@@ -259,19 +249,10 @@ public class Controladora {
         }
         
         /*--------------------------------
-        Calculo el costo del PaqueteTuristico sumando cada uno de los ServicioTuristico y aplicandole el DESCUENTO (variable global) por ser un paquete
-        --------------------------------*/ 
-        
-        for (ServicioTuristico servi : listaServicios){
-            
-            costo = costo + (servi.getCosto_servicio() * descuento);
-        }
-        
-        /*--------------------------------
         Edito el PaqueteTuristico y lo mando a la persistencia
         --------------------------------*/ 
         
-        paqTuri = emple.editarPaqueteTuristico(Id, Nombre, listaServicios, costo);
+        paqTuri = emple.editarPaqueteTuristico(Id, Nombre, listaServicios, descuento);
         
         controlPersis.editarPaqueteTuristico(paqTuri);
     }
@@ -569,6 +550,7 @@ public class Controladora {
         
         return emple.getListaClientesHabilitados(listaClien); 
     }
+    
     //</editor-fold>
     
     
@@ -590,14 +572,14 @@ public class Controladora {
         medioPago = getMedioPagoById(Integer.parseInt(MedioPago));
         
         /*--------------------------------
-        Creo venta
+        Creo venta y lo envío a la persistencia 
         --------------------------------*/ 
         
         venta = emple.crearVenta(fecha, cantidad, medioPago); 
         controlPersis.crearVenta(venta);
         
         /*--------------------------------
-        Agrego la venta al Empleado correspondiente
+        Agrego la venta al Empleado correspondiente y lo mando a la persistencia
         --------------------------------*/ 
         
         emple = getEmpleadoById(IdEmpleado);
@@ -605,7 +587,7 @@ public class Controladora {
         controlPersis.editarEmpleado(emple);
         
         /*--------------------------------
-        Agrego la venta al Cliente correspondiente
+        Agrego la venta al Cliente correspondiente y lo envío a la persistencia 
         --------------------------------*/ 
         
         clien = getClienteById(Id_Cliente);
