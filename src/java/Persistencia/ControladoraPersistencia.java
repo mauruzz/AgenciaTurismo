@@ -2,6 +2,7 @@ package Persistencia;
 
 import Logica.Cliente;
 import Logica.Empleado;
+import Logica.MedioPago;
 import Logica.PaqueteTuristico;
 import Logica.Persona;
 import Logica.ServicioTuristico;
@@ -15,18 +16,28 @@ import java.util.logging.Logger;
 
 public class ControladoraPersistencia {
 
-// --------------- VARIABLES GLOBALES
     
-    ServicioTuristicoJpaController jpaServiTur = new ServicioTuristicoJpaController();
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="VARIABLES GLOBALES">  
+    
+    ServicioTuristicoJpaController jpaServiTur = new ServicioTuristicoJpaController ();
     ClienteJpaController jpaCliente = new ClienteJpaController ();
     EmpleadoJpaController jpaEmple = new EmpleadoJpaController ();
     PaqueteTuristicoJpaController jpaPaquete = new PaqueteTuristicoJpaController ();
     UsuarioJpaController jpaUsu = new UsuarioJpaController (); 
     VentaJpaController jpaVenta = new VentaJpaController ();
     PersonaJpaController jpaPerso = new PersonaJpaController ();
+    MedioPagoJpaController jpaMedio = new MedioPagoJpaController ();
+    
+    //</editor-fold>
     
     
-// ------------------  METODOS SERVICIO TURISTICO
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE SERVICIO TURISTICO">   
     
     public void crearServicioTuristico(ServicioTuristico servTuri){
     
@@ -88,8 +99,13 @@ public class ControladoraPersistencia {
         }
     }
 
+    //</editor-fold>
     
-// ------------------ METODOS PAQUETE TURISTICO
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">   
     
     public void crearPaqueteTuristico(PaqueteTuristico paqTuri) {
         
@@ -140,9 +156,14 @@ public class ControladoraPersistencia {
         }
     }
 
+    //</editor-fold>
     
-// ------------------ METODOS EMPLEADO     
-   
+    
+   // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE EMPLEADO">   
+    
     public void crearEmpleado(Empleado emple) {
         
         try{
@@ -192,7 +213,13 @@ public class ControladoraPersistencia {
         }
     }
     
-// ------------------ METODOS USUARIO    
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE USUARIO">   
     
     public void crearUsuario(Usuario usu) {
         
@@ -211,8 +238,15 @@ public class ControladoraPersistencia {
             Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-// ------------------ METODOS PERSONA    
-
+    
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PERSONA">   
+    
     public void crearPersona(Persona perso) {
         
         try{
@@ -242,7 +276,13 @@ public class ControladoraPersistencia {
         return null;
     }
     
-// ------------------ METODOS CLIENTE  
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE CLIENTE">   
     
     public void crearCliente(Cliente clien) {
         
@@ -293,9 +333,13 @@ public class ControladoraPersistencia {
         return null;
     }
 
+    //</editor-fold>
     
     
-    // ------------------ METODOS VENTA
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE VENTA">   
     
     public void crearVenta(Venta venta) {
         
@@ -344,9 +388,55 @@ public class ControladoraPersistencia {
             Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-   
-
     
-
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIOPAGO">   
+    
+    public void crearMedioPago(MedioPago medioPago) {
+        
+        try{
+            jpaMedio.create(medioPago);
+        }catch (Exception ex){
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void editarMedioPago(MedioPago medioPago) {
+        try {
+            jpaMedio.edit(medioPago);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List<MedioPago> getMediosPago() {
+        
+        try{
+            return (jpaMedio.findMedioPagoEntities());
+        }catch (Exception ex){
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        return null;
+    }
+    
+    public MedioPago getMedioPagoById(int Id) {
+        
+        try{
+            return (jpaMedio.findMedioPago(Id));
+        }catch (Exception ex){
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        return null;
+    }
+    
+    //</editor-fold>
+    
+    
 }

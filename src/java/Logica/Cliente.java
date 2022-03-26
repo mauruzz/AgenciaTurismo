@@ -27,8 +27,12 @@ public class Cliente implements Serializable {
     public List<Venta> listaVentas;
     
     
-// ------------- CONTRUCTORES
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONTRUCTORES">
+    
     public Cliente() {
     }
 
@@ -39,9 +43,14 @@ public class Cliente implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
 
-// ------------ GETTERS Y SETTERS
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="GETTERS Y SETTERS">
+    
     public int getId_cliente() {
         return id_cliente;
     }
@@ -74,6 +83,11 @@ public class Cliente implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+    
     
     
 }

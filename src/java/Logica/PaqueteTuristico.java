@@ -30,8 +30,12 @@ public class PaqueteTuristico implements Serializable {
     public List<Venta> listaVentas;
     
     
-// -----------  CONTRUCTORES
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONTRUCTORES">
+    
     public PaqueteTuristico() {
     }
 
@@ -44,10 +48,14 @@ public class PaqueteTuristico implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
     
     
-// -------- SETTERS Y GETTERS 
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+    
     public int getCodigo_paquete() {
         return codigo_paquete;
     }
@@ -96,6 +104,12 @@ public class PaqueteTuristico implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
    
-
+    
+    // ----------------------------------------------------- //
+    
+    
+    
+    
 }

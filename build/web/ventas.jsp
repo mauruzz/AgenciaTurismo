@@ -1,3 +1,4 @@
+<%@page import="Logica.MedioPago"%>
 <%@page import="Logica.PaqueteTuristico"%>
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="Logica.Empleado"%>
@@ -5,9 +6,9 @@
 <%@page import="Logica.Venta"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,6 +35,7 @@
     <body>  
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
         
@@ -45,6 +47,7 @@
         
 
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
+            
             session.removeAttribute("venta_Id_Venta");
             session.removeAttribute("venta_Id_Cliente");
             session.removeAttribute("venta_Nombre_Cliente");
@@ -57,17 +60,20 @@
             session.removeAttribute("venta_Id_Paquete");
             session.removeAttribute("boton"); 
 
-
+            //--------- DECLARO VARIABLES AUXILIARES
+            
             Cliente clien = new Cliente ();
             Empleado emple = new Empleado (); 
             ServicioTuristico servTuri = new ServicioTuristico ();
             PaqueteTuristico paqTuri = new PaqueteTuristico ();
+            MedioPago medioPago = new MedioPago ();
             String producto = "";
             double costo = 0;
 
-
             %>
+            
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -88,12 +94,15 @@
                             <li><a href="clientes.jsp"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="servicios.jsp"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="#" class="active"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
@@ -107,14 +116,14 @@
                                 <table class="table table-striped table-bordered templatemo-user-table">
                                     <thead>
                                         <tr>
-                                            <td><a href="" class="white-text templatemo-sort-by">NÂ° de factura<span class="caret"></span></a></td>
+                                            <td><a href="" class="white-text templatemo-sort-by">N° de factura<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Fecha<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Nombre de cliente<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Servicio/Paquete<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Vendedor<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Medio de pago<span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Costo<span class="caret"></span></a></td>
-                                            <td>AcciÃ³n</td>
+                                            <td>Acción</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,7 +134,7 @@
                                         for (Venta venta : listaVentas) {
                                             clien = control.getClienteFromVenta(venta);
                                             emple = control.getEmpleadoFromVenta(venta);
-
+                                            
                                             servTuri = control.getServicioFromVenta(venta);
                                             
                                             if (servTuri != null) {
@@ -146,7 +155,7 @@
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=clien.getPersona().getNombre()%>&nbsp;<%=clien.getPersona().getApellido()%></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=producto%></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=emple.getPersona().getNombre()%>&nbsp;<%=emple.getPersona().getApellido()%></a></td>
-                                            <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=venta.getMedio_pago()%></a></td>
+                                            <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=venta.getMedio_pago().getNombre() %></a></td>
                                             <td><a class="link-negro" href="ServletVentas?mostrar=ok&id=<%=venta.getNum_venta()%>"><%=(costo*venta.getCantidad())%></a></td>
                                             <td><a href="ServletVentas?mostrar=ok&editar=ok&id=<%=venta.getNum_venta()%>" class="templatemo-edit-btn">Editar</a><a href="ServletVentas?eliminar=ok&id=<%=venta.getNum_venta()%>" class="templatemo-eliminar-btn">Eliminar</a></td>
                                         </tr>  

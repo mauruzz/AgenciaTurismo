@@ -40,7 +40,10 @@ public class ServicioTuristico implements Serializable {
 
     
     
-// -------CONSTRUCTORES
+    // ----------------------------------------------------- //
+
+
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
     
     public ServicioTuristico() {
     }
@@ -57,10 +60,14 @@ public class ServicioTuristico implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
     
 
-// -----------GETTERS Y SETTERS
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="GETTERS Y SETTERS">
+    
     public int getCodigo_servicio() {
         return codigo_servicio;
     }
@@ -133,7 +140,10 @@ public class ServicioTuristico implements Serializable {
         this.listaVentas = listaVentas;
     }
 
+    //</editor-fold>
     
+    
+    // ----------------------------------------------------- //
     
     
 }

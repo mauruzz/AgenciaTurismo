@@ -1,9 +1,9 @@
 <%@page import="Logica.Cliente"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,6 +30,7 @@
     <body>
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
 
@@ -40,6 +41,7 @@
             miSesion.setAttribute("control", control);
 
             // -------- LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES   
+            
             session.removeAttribute("registro_Id");
             session.removeAttribute("registro_Nombre");
             session.removeAttribute("registro_Apellido");
@@ -54,6 +56,7 @@
 
             %>
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -74,12 +77,15 @@
                             <li><a href="#" class="active"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="servicios.jsp"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="ventas.jsp"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>  
                     <div class="templatemo-content-container">
@@ -93,13 +99,13 @@
                                 <table class="table table-striped table-bordered templatemo-user-table">
                                     <thead>
                                         <tr>
-                                            <td><a href="" class="white-text templatemo-sort-by">NÂ° de cliente <span class="caret"></span></a></td>
+                                            <td><a href="" class="white-text templatemo-sort-by">N° de cliente <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Nombre <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Apellido <span class="caret"></span></a></td>
-                                            <td><a href="" class="white-text templatemo-sort-by">DirecciÃ³n <span class="caret"></span></a></td>
+                                            <td><a href="" class="white-text templatemo-sort-by">Dirección <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Celular <span class="caret"></span></a></td>
                                             <td><a href="" class="white-text templatemo-sort-by">Email <span class="caret"></span></a></td>
-                                            <td>AcciÃ³n</td>
+                                            <td>Acción</td>
                                         </tr>
                                     </thead>
                                     <tbody>

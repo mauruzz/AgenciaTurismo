@@ -1,9 +1,9 @@
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,6 +74,7 @@
                             <li><a href="clientes.jsp"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="#" class="active"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="ventas.jsp"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>  

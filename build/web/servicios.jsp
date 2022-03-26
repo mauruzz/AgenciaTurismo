@@ -1,9 +1,9 @@
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,8 +31,10 @@
     <body>  
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
+        
         if (usuario == null){
             response.sendRedirect("SinLogin.jsp");
         } else {
@@ -40,6 +42,7 @@
             miSesion.setAttribute("control", control);
         
             // ---------    LIMPIO TODAS VARIABLES DE SESSION DESCARTABLES
+            
             session.removeAttribute("servicio_Id");
             session.removeAttribute("servicio_Nombre");
             session.removeAttribute("servicio_Descripcion");
@@ -50,6 +53,7 @@
 
             %>
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -70,12 +74,15 @@
                             <li><a href="clientes.jsp"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="#" class="active"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="ventas.jsp"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>  
                     </nav>
                 </div>
+                
                 <!-- Main content --> 
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
@@ -85,7 +92,6 @@
                                 <a href="servicios.jsp"><img class="buscar-lupa" src="iconos/lupa.png" alt="Buscar servicio" title="Buscar servicio"></a><div class="buscar-input"><input type="text" class="form-control" placeholder="Buscar" name="buscar_servicio" id="buscar_servicio"></div>
                             </h2>      
                         </div>
-
 
                         <% 
                         List<ServicioTuristico> listaServicios = control.getListaServiciosHabilitados();

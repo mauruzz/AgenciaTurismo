@@ -20,8 +20,13 @@ public class Usuario implements Serializable {
     private String usuario;
     private String contrasenia;
     
-// ------------ CONTRUCTORES
+    
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONTRUCTORES">
+    
     public Usuario() {
     }
 
@@ -31,9 +36,14 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
     }
 
+    //</editor-fold>
 
-// ------------- SETTERS Y GETTERS 
+    
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+    
     public int getId_usuario() {
         return id_usuario;
     }
@@ -91,8 +101,10 @@ public class Usuario implements Serializable {
         return true;
     }
 
+    //</editor-fold>
     
     
+    // ----------------------------------------------------- //
     
  
 }

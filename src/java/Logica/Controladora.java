@@ -22,36 +22,64 @@ public class Controladora {
     Persona perso = new Persona ();
     Cliente clien = new Cliente ();
     Venta venta = new Venta ();
-    int maxServicioXPaquete = 5;
+    MedioPago medioPago = new MedioPago ();
+    int maxServicioXPaquete = 5;  //------ Cantidad maxima de servicios por paquete turistico
+    double descuento = 0.90;  //------ Descuento por realizar compra de paquete turistico
     
     
-// ------------- METODOS LOGIN
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS LOGIN">
     
     public int login(String usuario, String contrasenia) {
         
         List<Usuario> listaUsuarios = controlPersis.getUsuarios();
+        boolean usuHabilitado = false;
         
         for (Usuario usu : listaUsuarios) {
             if(usu.getUsuario().equals(usuario) && usu.getContrasenia().equals(contrasenia))
+                /*
+                usuHabilitado = validarUsuario (usu.getId_usuario());
+            
+                if (usuHabilitado) {
+                
+                }
+            }*/
                 return usu.getId_usuario();
         }
         return 0;
-    }    
+    }
+    
+    public boolean validarUsuario(int idUsuario) {
+        
+        //      TERMINAR !!
+        
+        //      RECORDAR TOCAR EL SERVLET TAMBIEN
+        
+        return false;
+    }
+    //</editor-fold>
     
     
+    // ----------------------------------------------------- //
     
-// ------------- METODOS DE SERVICIO TURISTICO
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE SERVICIO TURISTICO">
     
     public void crearServicioTuristico(String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         double Costo = Double.parseDouble(str_Costo);
-        servTuri.setCosto_servicio(Costo);
         Date Fecha = deStringToDate(str_Fecha);
-        servTuri.setFecha_servicio(Fecha);
-        servTuri.setHabilitado(true);
+        
+        /*--------------------------------
+        Creo el ServicioTuristico y lo mando a la persistencia
+        --------------------------------*/ 
+        
+        servTuri = emple.crearServicioTuristico(Nombre, Descripcion, Destino, Costo, Fecha);
         
         controlPersis.crearServicioTuristico(servTuri);
         
@@ -59,182 +87,213 @@ public class Controladora {
     
     public List<ServicioTuristico> getListaServicios () {
         
-        return (this.controlPersis.getServicios()); 
+        return (this.controlPersis.getServicios());
     }
     
     public List<ServicioTuristico> getListaServiciosHabilitados () {
+        /*--------------------------------
+        Busco la lista completa de servicios, se la paso a empleado para que la filtre y retorne los habilitados
+        --------------------------------*/ 
         
         List<ServicioTuristico> listaServi = getListaServicios();
-        List<ServicioTuristico> listaServiHabilitados = new ArrayList<ServicioTuristico>();
-                
-        for (ServicioTuristico servi : listaServi) {
-            
-            if (servi.isHabilitado() == true){
-                
-                listaServiHabilitados.add(servi);
-            }
-        }
-                
-        return listaServiHabilitados; 
+        
+        return emple.getListaServiciosHabilitados(listaServi);
     }
     
     public ServicioTuristico getServicioTuristicoById(String str_Id) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int Id = Integer.parseInt(str_Id);
+        
         servTuri = controlPersis.getServicioTuristicoById(Id);
         
         return servTuri;
     }
     
     public void eliminarLogicoServicioTuristico(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        ServicioTuristico se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         servTuri = getServicioTuristicoById(str_Id);
-        servTuri.setHabilitado(false);
+        servTuri = emple.eliminarLogicoServicioTuristico(servTuri);
         
         controlPersis.eliminarLogicoServicioTuristico(servTuri);
     }
     
     public void editarServicioTuristico(String str_Id, String Nombre, String Descripcion, String Destino, String str_Costo, String str_Fecha) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int Id = Integer.parseInt(str_Id);
-        servTuri.setCodigo_servicio(Id);
-        servTuri.setNombre(Nombre);
-        servTuri.setDescripcion_breve(Descripcion);
-        servTuri.setDestino_servicio(Destino);
         double Costo = Double.parseDouble(str_Costo);
-        servTuri.setCosto_servicio(Costo);
         Date Fecha = deStringToDate(str_Fecha);
-        servTuri.setFecha_servicio(Fecha);
+        
+        /*--------------------------------
+        Edito el registro y lo envío a la persistencia
+        --------------------------------*/ 
+        
+        servTuri = emple.editarServicioTuristico(Id, Nombre, Descripcion, Destino, Costo, Fecha);
         
         controlPersis.editarServicioTuristico(servTuri);
     }
+    
+    //</editor-fold>
 
     
+    // ----------------------------------------------------- //
     
     
-// ------------- METODOS DE PAQUETE TURISTICO
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PAQUETE TURISTICO">
     
     public void crearPaqueteTuristico(String Nombre, String Servi_1_Id, String Servi_2_Id, String Servi_3_Id, String Servi_4_Id, String Servi_5_Id) {
         
-        String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id}; 
+        /*--------------------------------
+        Variables locales
+        --------------------------------*/ 
+        
+        String str_Ids [] = {Servi_1_Id, Servi_2_Id, Servi_3_Id, Servi_4_Id, Servi_5_Id};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
-        double costo = 0;
-        double descuento = 0.90;
+
+        /*--------------------------------
+        Cargo los ServicioTuristico en una lista segun las IDs pedidas
+        --------------------------------*/ 
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
             if (!str_Ids[i].equals("")) {
-            
+                
                 servTuri = getServicioTuristicoById(str_Ids[i]);
                 listaServicios.add(servTuri);
-            }    
+            }
         }
         
-        for (ServicioTuristico servi : listaServicios){
-            
-            costo = costo + (servi.getCosto_servicio() * descuento);
-        }
+        /*--------------------------------
+        Creo el PaqueteTuristico y lo mando a la persistencia
+        --------------------------------*/ 
         
-        paqTuri.setNombre(Nombre);
-        paqTuri.setCosto_paquete(costo);
-        paqTuri.setHabilitado(true);
-        paqTuri.setLista_servicios(listaServicios);
+        paqTuri = emple.crearPaqueteTuristico(Nombre, descuento, listaServicios);
         
         controlPersis.crearPaqueteTuristico(paqTuri);
         
     }
     
     public List<PaqueteTuristico> getListaPaquetes (){
-    
-        return (this.controlPersis.getPaquetes()); 
+        
+        return (this.controlPersis.getPaquetes());
     }
     
+    public List<PaqueteTuristico> getListaPaquetesHabilitados () {
+        /*--------------------------------
+        Busco la lista completa de paquetes, se la paso a empleado para que la filtre y retorne los habilitados
+        --------------------------------*/ 
+        
+        List<PaqueteTuristico> listaPaque = getListaPaquetes();
+        
+        return emple.getListaPaquetesHabilitados(listaPaque);
+    }
+        
     public PaqueteTuristico getPaqueteTuristicoById(String str_Id) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int Id = Integer.parseInt(str_Id);
+        
         paqTuri = controlPersis.getPaqueteTuristicoById(Id);
         
         return paqTuri;
     }
-    
-    public List<PaqueteTuristico> getListaPaquetesHabilitados () {
-        
-        List<PaqueteTuristico> listaPaque = getListaPaquetes();
-        List<PaqueteTuristico> listaPaqueHabilitados = new ArrayList<PaqueteTuristico>();
-                
-        for (PaqueteTuristico paque : listaPaque) {
-            
-            if (paque.isHabilitado() == true){
-                
-                listaPaqueHabilitados.add(paque);
-            }
-        }
-                
-        return listaPaqueHabilitados; 
-    }
-    
+
     public void eliminarLogicoPaqueteTuristico(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        PaqueteTuristico se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         paqTuri = getPaqueteTuristicoById(str_Id);
-        paqTuri.setHabilitado(false);
+        paqTuri = emple.eliminarLogicoPaqueteTuristico(paqTuri);
         
         controlPersis.eliminarLogicoPaqueteTuristico(paqTuri);
     }
     
     public void editarPaqueteTuristico(String str_Id, String Nombre, String str_Servicio_1, String str_Servicio_2, String str_Servicio_3, String str_Servicio_4, String str_Servicio_5) {
         
-        String str_Ids [] = {str_Servicio_1, str_Servicio_2, str_Servicio_3, str_Servicio_4, str_Servicio_5}; 
+        /*--------------------------------
+        Variables locales
+        --------------------------------*/ 
+        
+        int Id = Integer.parseInt(str_Id);
+        String str_Ids [] = {str_Servicio_1, str_Servicio_2, str_Servicio_3, str_Servicio_4, str_Servicio_5};
         List<ServicioTuristico> listaServicios = new ArrayList<ServicioTuristico>();
         double costo = 0;
-        double descuento = 0.90;
+        
+        /*--------------------------------
+        Cargo los ServicioTuristico en una lista segun las IDs pedidas
+        --------------------------------*/ 
         
         for (int i = 0; i < maxServicioXPaquete; i++) {
             
             if (!str_Ids[i].equals("")) {
-            
+                
                 servTuri = getServicioTuristicoById(str_Ids[i]);
                 listaServicios.add(servTuri);
-            }    
+            }
         }
         
-        for (ServicioTuristico servi : listaServicios){
-            
-            costo = costo + (servi.getCosto_servicio() * descuento);
-        }
+        /*--------------------------------
+        Edito el PaqueteTuristico y lo mando a la persistencia
+        --------------------------------*/ 
         
-        int Id = Integer.parseInt(str_Id);
-        paqTuri.setCodigo_paquete(Id);
-        paqTuri.setNombre(Nombre);
-        paqTuri.setLista_servicios(listaServicios);
-        paqTuri.setCosto_paquete(costo);
-        
+        paqTuri = emple.editarPaqueteTuristico(Id, Nombre, listaServicios, descuento);
         
         controlPersis.editarPaqueteTuristico(paqTuri);
     }
     
+    //</editor-fold>
     
     
-// ------------- METODOS DE EMPLEADO
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE EMPLEADO">
     
     public void crearEmpleado(String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email, String Usuario, String Contrasenia, String Cargo, String str_Sueldo) {
         
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        crearPersona(perso);
-        emple.setPersona(perso);
         
-        usu.setUsuario(Usuario);
-        usu.setContrasenia(Contrasenia);
+        /*--------------------------------
+        Creo a Persona y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        perso = emple.crearPersona(Nombre, Apellido, Direccion, dni, fecha, Nacionalidad, Celular, Email);
+        crearPersona(perso);    //Metodo que llama a Persistencia
+        
+        /*--------------------------------
+        Creo a Usuario y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        usu = emple.crearUsuario(Usuario, Contrasenia);
         crearUsuario(usu);
-        emple.setUsuario(usu);
         
+        /*--------------------------------
+        Asigno atributos del empleado y envio el Empleado a la persistencia
+        --------------------------------*/ 
+        
+        emple.setPersona(perso);
+        emple.setUsuario(usu);
         emple.setCargo(Cargo);
         emple.setSueldo(Double.parseDouble(str_Sueldo));
         emple.setHabilitado(true);
@@ -244,13 +303,16 @@ public class Controladora {
     
     public Empleado getEmpleadoById(String str_Id) {
         
-        int Id = Integer.parseInt(str_Id);
-        emple = controlPersis.getEmpleadoById(Id);
+        emple = controlPersis.getEmpleadoById(Integer.parseInt(str_Id));
         
         return emple;
     }
     
     public void eliminarLogicoEmpleado(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        Empleado se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
         emple = getEmpleadoById(str_Id);
         emple.setHabilitado(false);
@@ -297,27 +359,36 @@ public class Controladora {
     
     public void editarEmpleado(String str_Id, String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email, String Usuario, String Contrasenia, String Cargo, String str_Sueldo) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int id_Empleado = Integer.parseInt(str_Id);
-        
-        perso.setId_Persona(getIdPersonaFromIdEmpleado(id_Empleado));
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        int id_Persona = getIdPersonaFromIdEmpleado(id_Empleado);
+        int id_Usuario = getIdUsuarioFromIdEmpleado(id_Empleado);
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
+        
+        /*--------------------------------
+        Edito a Persona y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        perso = emple.editarPersona(id_Persona, Nombre, Apellido, dni, Direccion, fecha, Nacionalidad, Celular, Email);
         editarPersona(perso);
-        emple.setPersona(perso);
         
-        usu.setId_usuario(getIdUsuarioFromIdEmpleado(id_Empleado));
-        usu.setUsuario(Usuario);
-        usu.setContrasenia(Contrasenia);
+        /*--------------------------------
+        Edito a Usuario y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        usu = emple.editarUsuario(id_Usuario, Usuario, Contrasenia);
         editarUsuario(usu);
-        emple.setUsuario(usu);
         
+        /*--------------------------------
+        Asigno atributos editados del empleado y envio el Empleado a la persistencia
+        --------------------------------*/ 
+        
+        emple.setUsuario(usu);
+        emple.setPersona(perso);
         emple.setId_empleado(id_Empleado);
         emple.setCargo(Cargo);
         emple.setSueldo(Double.parseDouble(str_Sueldo));
@@ -326,11 +397,16 @@ public class Controladora {
         controlPersis.editarEmpleado(emple);
     }
     
+    //</editor-fold>
     
     
-// ----------------  METODOS DE USUARIO
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE USUARIO">
 
     public void crearUsuario(Usuario usu) {
+        
         controlPersis.crearUsuario(usu);
     }
     
@@ -340,7 +416,24 @@ public class Controladora {
     }
     
     
-// ----------------  METODOS DE PERSONA
+    /*
+    
+    IMPORTANTE !! 
+    
+    FALTA SEGURIDAD PARA QUE LOS EMPLEAOS DESHABILITADOS NO SE PUEDAN CONECTAR
+    HAYQ UE MODIFICAR LA SEGURIDAD DE CADA PAGINA Y LA DEL SERVLET
+    
+    */
+    
+    
+    
+    //</editor-fold>    
+    
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE PERSONA">
     
     public void crearPersona(Persona perso) {
         
@@ -357,46 +450,61 @@ public class Controladora {
         return (this.controlPersis.getPersonas()); 
     }
     
-// ----------------  METODOS DE CLIENTE    
+    //</editor-fold>
     
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE CLIENTE">
+       
     public void crearCliente(String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email) {
         
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        crearPersona(perso);
-        clien.setPersona(perso);
         
-        clien.setHabilitado(true);
+        /*--------------------------------
+        Creo a Persona y se la envio a la persistencia
+        --------------------------------*/ 
         
+        perso = emple.crearPersona(Nombre, Apellido, Direccion, dni, fecha, Nacionalidad, Celular, Email);
+        crearPersona(perso);    //Metodo que llama a Persistencia
+        
+        /*--------------------------------
+        Creo Cliente, asigno atributos y lo envío a la persistencia 
+        --------------------------------*/ 
+        
+        clien = emple.crearCliente(perso);
         controlPersis.crearCliente(clien);
     }
     
-    public Cliente getClienteById(String str_Id) {
+    public Cliente getClienteById(int Id) {
         
-        int Id = Integer.parseInt(str_Id);
         clien = controlPersis.getClienteById(Id);
         
         return clien;
     }
     
     public void eliminarLogicoCliente(String str_Id) {
+        /*--------------------------------
+        Hago un eliminado logico del registro desabilitandolo, de esta manera las ventas realizadas con este 
+        Cliente se seguiran viendo sin tener que modificar el historial de ventas
+        --------------------------------*/ 
         
-        clien = getClienteById(str_Id);
-        clien.setHabilitado(false);
+        int Id = Integer.parseInt(str_Id);
+        clien = getClienteById(Id);
+        clien = emple.eliminarLogicoCliente(clien);
         
         controlPersis.eliminarLogicoCliente(clien);
     }
     
     public int getIdPersonaFromIdCliente(int Id) {
         
-        clien = controlPersis.getClienteById(Id);
+        clien = getClienteById(Id);
         
         perso = clien.getPersona();
         
@@ -407,25 +515,27 @@ public class Controladora {
     
     public void editarCliente(String str_Id, String Nombre, String Apellido, String Direccion, String str_Dni, String str_Fecha_Nac, String Nacionalidad, String Celular, String Email) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         int id_Cliente = Integer.parseInt(str_Id);
-        
-        perso.setId_Persona((int)getIdPersonaFromIdCliente(id_Cliente));
-        
-        perso.setNombre(Nombre);
-        perso.setApellido(Apellido);
-        perso.setDireccion(Direccion);
-        perso.setDni(Integer.parseInt(str_Dni));
+        int id_Persona = (int)getIdPersonaFromIdCliente(id_Cliente);
+        int dni = Integer.parseInt(str_Dni);
         Date fecha = deStringToDate(str_Fecha_Nac);
-        perso.setFecha_nacimiento(fecha);
-        perso.setNacionalidad(Nacionalidad);
-        perso.setCelular(Celular);
-        perso.setEmail(Email);
-        editarPersona(perso);
-        clien.setPersona(perso);
-                
-        clien.setId_cliente(Integer.parseInt(str_Id));
-        clien.setHabilitado(true);
+            
+        /*--------------------------------
+        Edito a Persona y se la envio a la persistencia
+        --------------------------------*/ 
         
+        perso = emple.editarPersona(id_Persona, Nombre, Apellido, dni, Direccion, fecha, Nacionalidad, Celular, Email);
+        editarPersona(perso);
+        
+        /*--------------------------------
+        Edito a Cliente asignandole a Persona previamente creada 
+        --------------------------------*/ 
+        
+        clien = emple.editarCliente(id_Cliente, perso);
         controlPersis.editarCliente(clien);
     }
     
@@ -437,43 +547,59 @@ public class Controladora {
     public List<Cliente> getListaClientesHabilitados (){
         
         List<Cliente> listaClien = getListaClientes();
-        List<Cliente> listaClienHabilitados = new ArrayList<Cliente>();
-                
-        for (Cliente clien : listaClien) {
-            
-            if (clien.isHabilitado() == true){
-                
-                listaClienHabilitados.add(clien);
-            }
-        }
-                
-        return listaClienHabilitados; 
+        
+        return emple.getListaClientesHabilitados(listaClien); 
     }
     
+    //</editor-fold>
     
     
-// ----------------  METODOS DE VENTA
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE VENTA">
     
     public void crearVenta(String IdEmpleado, String IdCliente, String ServPaq, String Cantidad, String MedioPago) {
         
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
         DateTimeFormatter str_Fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date fecha = deStringToDate(str_Fecha.format(LocalDateTime.now()));
-        venta.setFecha_venta(fecha);
+        int cantidad = Integer.parseInt(Cantidad);
+        int Id_Cliente = Integer.parseInt(IdCliente);
+        medioPago = getMedioPagoById(Integer.parseInt(MedioPago));
         
-        venta.setCantidad(Integer.parseInt(Cantidad));
-        venta.setMedio_pago(MedioPago);
+        /*--------------------------------
+        Creo venta y lo envío a la persistencia 
+        --------------------------------*/ 
+        
+        venta = emple.crearVenta(fecha, cantidad, medioPago); 
         controlPersis.crearVenta(venta);
+        
+        /*--------------------------------
+        Agrego la venta al Empleado correspondiente y lo mando a la persistencia
+        --------------------------------*/ 
         
         emple = getEmpleadoById(IdEmpleado);
         emple.getListaVentas().add(venta);
         controlPersis.editarEmpleado(emple);
         
-        clien = getClienteById(IdCliente);
+        /*--------------------------------
+        Agrego la venta al Cliente correspondiente y lo envío a la persistencia 
+        --------------------------------*/ 
+        
+        clien = getClienteById(Id_Cliente);
         clien.getListaVentas().add(venta);
         controlPersis.editarCliente(clien);
         
-        // La Posicion [0] corresponde al tipo de producto (servicio o paquete)
-        // La posicion [1] corresponde al Id del producto
+        /*--------------------------------
+        Agrego la venta al Servicio o PaqueteTuristico que corresponda, donde:
+        
+        La Posicion [0] corresponde al tipo de producto (servicio o paquete)
+        La posicion [1] corresponde al Id del producto
+        --------------------------------*/ 
         String[] vec_ServPaq = ServPaq.split("-");
         
         if (vec_ServPaq[0].equals("servicio")) {
@@ -490,11 +616,9 @@ public class Controladora {
           
     }
     
-    public Venta getVentaById(String str_Id) {
+    public Venta getVentaById(int id) {
         
-        int Id = Integer.parseInt(str_Id);
-        
-        venta = controlPersis.getVentaById(Id);
+        venta = controlPersis.getVentaById(id);
         
         return venta;
     }
@@ -507,78 +631,43 @@ public class Controladora {
     public Cliente getClienteFromVenta(Venta venta_Actual) {
                 
         List<Cliente> listaClientes = getListaClientes();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (Cliente cliente : listaClientes) {
+        clien = emple.getClienteFromVenta(venta_Actual, listaClientes);
             
-            listaVentas = cliente.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return cliente;
-                }
-        }
-        
-        return null;
+        return clien;
     }
     
     public Empleado getEmpleadoFromVenta(Venta venta_Actual) {
         
         List<Empleado> listaEmpleados = getListaEmpleados();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
+        Empleado empleAux = new Empleado ();
         
-        for (Empleado empleado : listaEmpleados) {
-            
-            listaVentas = empleado.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return empleado;
-                }
-        }
+        empleAux = emple.getEmpleadoFromVenta(venta_Actual, listaEmpleados);
         
-        return null;
+        return empleAux;
     }
     
     public ServicioTuristico getServicioFromVenta(Venta venta_Actual) {
         
         List<ServicioTuristico> listaServicios = getListaServicios();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (ServicioTuristico servicio : listaServicios) {
-            
-            listaVentas = servicio.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return servicio;
-                }
-        }
+        servTuri = emple.getServicioFromVenta(venta_Actual, listaServicios);
         
-        return null;
+        return servTuri;
     }
 
     public PaqueteTuristico getPaqueteFromVenta(Venta venta_Actual) {
         
         List<PaqueteTuristico> listaPaquetes = getListaPaquetes();
-        List<Venta> listaVentas = new ArrayList<Venta> ();
         
-        for (PaqueteTuristico paquete : listaPaquetes) {
-            
-            listaVentas = paquete.getListaVentas();
-            
-            for (Venta venta : listaVentas)
-                if (venta.equals(venta_Actual)) {
-                    return paquete;
-                }
-        }
+        paqTuri = emple.getPaqueteFromVenta(venta_Actual, listaPaquetes);
         
-        return null;
+        return paqTuri;
     }
     
     public void eliminarVenta(String str_Id) {
         
-        venta = getVentaById(str_Id);
+        venta = getVentaById(Integer.parseInt(str_Id));
         
         clien = getClienteFromVenta(venta);
         emple = getEmpleadoFromVenta(venta);
@@ -609,7 +698,8 @@ public class Controladora {
     
     public void editarVenta(String IdVenta, String IdCliente, String ServPaq, String Cantidad, String MedioPago) {
         
-        venta = getVentaById(IdVenta);
+        venta = getVentaById(Integer.parseInt(IdVenta));
+        medioPago = getMedioPagoById(Integer.parseInt(MedioPago));
         
         //----------- BORRO EL REGISTRO VIEJO
         
@@ -629,7 +719,7 @@ public class Controladora {
         // ------------ AGREGO EL NUEVO REGISTRO
         
         venta.setCantidad(Integer.parseInt(Cantidad));
-        venta.setMedio_pago(MedioPago);
+        venta.setMedio_pago(medioPago);
         
         // La Posicion [0] corresponde al tipo de producto (servicio o paquete)
         // La posicion [1] corresponde al Id del producto
@@ -650,12 +740,92 @@ public class Controladora {
         
         controlPersis.editarVenta(venta);
     }
+    //</editor-fold>    
     
     
+    // ----------------------------------------------------- //
     
     
-// ----------------  METODOS PARA MANEJO DE FECHA/DATE    
-
+    //<editor-fold defaultstate="collapsed" desc="METODOS DE MEDIOPAGO">
+    
+    public void crearMedioPago(String nombre, String str_descuento, String str_habilitado) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        double descuento = Double.parseDouble(str_descuento);
+        boolean habilitado = false;
+        if (str_habilitado.equals("1")){
+            habilitado=true;
+        }   
+        
+        /*--------------------------------
+        Creo a MedioPago y se la envio a la persistencia
+        --------------------------------*/ 
+        
+        medioPago = emple.crearMedioPago(nombre, descuento, habilitado);
+        controlPersis.crearMedioPago(medioPago);        //Metodo que llama a Persistencia
+        
+    }
+    
+    public void editarMedioPago(String str_id, String nombre, String str_descuento, String str_habilitado) {
+        
+        /*--------------------------------
+        Transformo los datos ingresados por teclado al tipo necesario
+        --------------------------------*/ 
+        
+        int id = Integer.parseInt(str_id);
+        double descuento = Double.parseDouble(str_descuento);
+        boolean habilitado = false;
+        if (str_habilitado.equals("1")){
+            habilitado = true;
+        }   
+        
+        /*--------------------------------
+        Busco a MedioPago y le cargo las modificaciones
+        --------------------------------*/ 
+        
+        medioPago = getMedioPagoById(id);
+        medioPago.setNombre(nombre);
+        medioPago.setDescuento(descuento);
+        medioPago.setHabilitado(habilitado);
+        
+        /*--------------------------------
+        EnvÃ­o todo a la persistencia
+        --------------------------------*/ 
+        
+        controlPersis.editarMedioPago(medioPago); 
+        
+    }
+    
+    public List<MedioPago> getListaMediosPago() {
+        
+        return (this.controlPersis.getMediosPago()); 
+    }
+    
+    public List<MedioPago> getListaMediosPagoHabilitados () {
+        
+        List<MedioPago> listaMediosPago = getListaMediosPago();
+        
+        return emple.getListaMediosPagoHabilitados(listaMediosPago);
+    }
+    
+    public MedioPago getMedioPagoById(int Id) {
+        
+        medioPago = controlPersis.getMedioPagoById(Id);
+        
+        return medioPago;
+    }
+    
+    //</editor-fold>  
+        
+    
+    // ----------------------------------------------------- //
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS PARA MANEJO DE FECHA/DATE   SIN VER">
+    
     //Convierte un String a un tipo DATE en formato dd-MM-yyyy, se puede cambiar el formato a / 
     public static synchronized java.util.Date deStringToDate (String fecha) {
         
@@ -680,6 +850,9 @@ public class Controladora {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("MM"); 
         return Integer.parseInt(formatoFecha.format(fecha));
     }
-
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
     
 }

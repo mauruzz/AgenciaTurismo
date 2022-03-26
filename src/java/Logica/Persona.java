@@ -31,9 +31,13 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.DATE)
     public Date fecha_nacimiento;
 
+    
 
-// ---------- CONSTRUCTORES
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTORES">
+    
     public Persona() {
     }
 
@@ -48,11 +52,15 @@ public class Persona implements Serializable {
         this.email = email;
         this.fecha_nacimiento = fecha_nacimiento;
     }
-
+    
+    //</editor-fold>
    
     
-// ---------- SETTERS Y GETTERS 
+    // ----------------------------------------------------- //
 
+
+    //<editor-fold defaultstate="collapsed" desc="SETTERS Y GETTERS">
+    
     public int getId_Persona() {
         return id_Persona;
     }
@@ -124,6 +132,14 @@ public class Persona implements Serializable {
     public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+
+    
+    
+    //</editor-fold>
+    
+    
+    // ----------------------------------------------------- //
+
 
     
     

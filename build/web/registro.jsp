@@ -1,7 +1,7 @@
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,6 +28,7 @@
     <body>
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
         
@@ -59,12 +60,15 @@
                             <li><a href="clientes.jsp"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="servicios.jsp"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="ventas.jsp"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>
                     </nav>
                 </div>
+                
                 <!-- Main content -->
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
@@ -74,7 +78,7 @@
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
                                         <label for="inputId">Id</label>
-                                        <input type="text" class="form-control" id="inputId" name="inputId" placeholder="Numero de identificaciÃ³n" <%if(session.getAttribute("registro_Id") != null){%>value="<%= session.getAttribute("registro_Id")%>"<%}%> disabled>                  
+                                        <input type="text" class="form-control" id="inputId" name="inputId" placeholder="Numero de identificación" <%if(session.getAttribute("registro_Id") != null){%>value="<%= session.getAttribute("registro_Id")%>"<%}%> disabled>                  
                                     </div>             
                                 </div>
                                 <div class="row form-group">
@@ -89,7 +93,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputDireccion">DirecciÃ³n</label>
+                                        <label for="inputDireccion">Dirección</label>
                                         <input type="text" class="form-control" id="inputDireccion" name="inputDireccion" placeholder="Av. Siempreviva 742" <%if(session.getAttribute("registro_Direccion") != null){%>value="<%= session.getAttribute("registro_Direccion")%>"<%}%>>                  
                                     </div>
                                     <div class="col-lg-6 col-md-6 form-group">                  
@@ -129,11 +133,11 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-lg-6 col-md-6 form-group">                  
-                                                <label for="inputContrasenia">ContraseÃ±a</label>
+                                                <label for="inputContrasenia">Contraseña</label>
                                                 <input type="password" class="form-control" id="inputContrasenia" name="inputContrasenia" placeholder="**************" <%if(session.getAttribute("registro_Contrasenia") != null){%>value="<%= session.getAttribute("registro_Contrasenia")%>"<%}%>>
                                             </div>
                                             <div class="col-lg-6 col-md-6 form-group">                  
-                                                <label for="inputConfirmarContrasenia">Confirmar contraseÃ±a</label>
+                                                <label for="inputConfirmarContrasenia">Confirmar contraseña</label>
                                                 <input type="password" class="form-control" id="inputConfirmarContrasenia" name="inputConfirmarContrasenia" placeholder="**************" <%if(session.getAttribute("registro_Contrasenia") != null){%>value="<%= session.getAttribute("registro_Contrasenia")%>"<%}%>>
                                             </div> 
                                         </div>

@@ -45,7 +45,7 @@ public class ServletVentas extends HttpServlet {
         if(request.getParameter("mostrar") != null){
             if(request.getParameter("mostrar").equals("ok")){
                 
-                venta = control.getVentaById(request.getParameter("id"));
+                venta = control.getVentaById(Integer.parseInt(request.getParameter("id")));
                 
                 clien = control.getClienteFromVenta(venta);
                 servTuri = control.getServicioFromVenta(venta);
@@ -107,7 +107,7 @@ public class ServletVentas extends HttpServlet {
 
                 String Id_Cliente = request.getParameter("inputIdCliente");
 
-                clien = control.getClienteById(Id_Cliente);
+                clien = control.getClienteById(Integer.parseInt(Id_Cliente));
 
                 request.getSession().setAttribute("venta_Id_Cliente", Id_Cliente);
                 request.getSession().setAttribute("venta_Nombre_Cliente", clien.getPersona().getNombre());

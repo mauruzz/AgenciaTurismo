@@ -1,11 +1,12 @@
+<%@page import="Logica.MedioPago"%>
 <%@page import="Logica.Cliente"%>
 <%@page import="Logica.PaqueteTuristico"%>
 <%@page import="Logica.ServicioTuristico"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Controladora"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,6 +33,7 @@
     <body>
         <% 
         // ------------ SEGURIDAD LOGIN
+        
         HttpSession miSesion = request.getSession();
         String usuario = (String) request.getSession().getAttribute("usuario");
         
@@ -49,9 +51,13 @@
 
             //----------- BUSCO TODOS LOS CLIENTES
             List<Cliente> listaClientesHabilitados = control.getListaClientesHabilitados();
+            
+            //----------- BUSCO TODOS LOS CLIENTES
+            List<MedioPago> listaMediosPagoHabilitados = control.getListaMediosPagoHabilitados();
 
             %>
             <!-- Left column -->
+            
             <div class="templatemo-flex-row">
                 <div class="templatemo-sidebar">
                     <header class="templatemo-site-header">
@@ -72,30 +78,32 @@
                             <li><a href="clientes.jsp"><img class="iconos-menu" src="iconos/clientes.png">Clientes</a></li>
                             <li><a href="servicios.jsp"><img class="iconos-menu" src="iconos/servicios.png">Servicios</a></li>
                             <li><a href="paquetes.jsp"><img class="iconos-menu" src="iconos/paquetes.png">Paquetes</a></li>
+                            <li><a href="mediosPago.jsp"><img class="iconos-menu" src="iconos/billetera.png">Medios de pago</a></li>
                             <li><a href="ventas.jsp" class="active"><img class="iconos-menu" src="iconos/ventas.png">Ventas</a></li>
                             <li><a href="ServletLogout"><img class="iconos-menu" src="iconos/logout.png">Salir</a></li>
                         </ul>
                     </nav>
                 </div>
+                
                 <!-- Main content -->
+                
                 <div class="templatemo-content col-1 light-gray-bg">
                     <div class="div-usuario">Bienvenido&nbsp;<%=session.getAttribute("nombreUsuario")%></div>
                     <div class="templatemo-content-container">
                         <div class="templatemo-content-widget white-bg">
-                            <h2 class="margin-bottom-30">Factura <%if(session.getAttribute("venta_Id_Venta") != null){%>NÂ° <%= session.getAttribute("venta_Id_Venta")%><%}%></h2>
+                            <h2 class="margin-bottom-30">Factura <%if(session.getAttribute("venta_Id_Venta") != null){%>N° <%= session.getAttribute("venta_Id_Venta")%><%}%></h2>
                             <form action="ServletVentas" class="templatemo-login-form" method="POST">
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputIdCliente">NÂ° Cliente</label>
-                                        <input type="text" class="form-control margin-bottom-5" id="inputIdCliente" name="inputIdCliente" placeholder="Numero de identificaciÃ³n"  <%if(session.getAttribute("venta_Id_Cliente") != null){%>value="<%= session.getAttribute("venta_Id_Cliente")%>"<%}%>>
+                                        <label for="inputIdCliente">N° Cliente</label>
+                                        <input type="text" class="form-control margin-bottom-5" id="inputIdCliente" name="inputIdCliente" placeholder="Numero de identificación"  <%if(session.getAttribute("venta_Id_Cliente") != null){%>value="<%= session.getAttribute("venta_Id_Cliente")%>"<%}%>>
                                         <div class="form-group text-left">
                                             <input type="submit" value="Seleccionar" name="boton_Form_Factura_Selecionar" class="templatemo-blue-button">
                                         </div>
                                     </div> 
 
-                                    <!--      AL ENCONTRAR AL CLIENTE OCUALTAR ESTE BUSCADOR        -->
                                     <div class="col-lg-6 col-md-6 form-group">    
-                                        <label class="control-label templatemo-block">Busqueda rÃ¡pida</label>
+                                        <label class="control-label templatemo-block">Busqueda rápida</label>
                                         <select id="busqueda-rapida-cliente" class="form-control">
 
                                             <option value="">-----  Clientes  -----</option> 
@@ -123,7 +131,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-lg-6 col-md-6 form-group">                  
-                                        <label for="inputDireccion">DirecciÃ³n</label>
+                                        <label for="inputDireccion">Dirección</label>
                                         <input type="text" class="form-control" id="inputDireccion" name="inputDireccion" placeholder="Av. Siempreviva 742" <%if(session.getAttribute("venta_Direccion_Cliente") != null){%>value="<%= session.getAttribute("venta_Direccion_Cliente")%>"<%}%>>                  
                                     </div>
                                     <div class="col-lg-6 col-md-6 form-group">                  
@@ -167,11 +175,17 @@
                                     <div class="col-lg-6 col-md-6 form-group">                  
                                         <label class="control-label templatemo-block">Medio de pago</label>
                                         <select id="medioPago" name="medioPago" class="form-control">
-                                            <option value="efectivo" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("efectivo")){%> selected <%}%> >Efectivo</option>
-                                            <option value="debito" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("debito")){%> selected <%}%>>DÃ©bito</option>
-                                            <option value="credito" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("credito")){%> selected <%}%>>CrÃ©dito</option>
-                                            <option value="monedero" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("monedero")){%> selected <%}%>>Monedero</option>
-                                            <option value="transferencia" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(session.getAttribute("venta_Medio_Pago").equals("transferencia")){%> selected <%}%>>Transferencia</option>                      
+                                            
+                                            <option value="">-----  Medios de pago  -----</option> 
+                                            
+                                            <%
+                                            for (MedioPago medioPago: listaMediosPagoHabilitados){
+                                            %>
+                                            <option value="<%=medioPago.getCodigo_medio_pago()%>" <%if(session.getAttribute("venta_Medio_Pago")!= null)if(((MedioPago)session.getAttribute("venta_Medio_Pago")).equals(medioPago)){%> selected <%}%> ><%=medioPago.getNombre()%>&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<%=medioPago.getDescuento()%>&nbsp;)</option>
+                                            <%
+                                            }
+                                            %>  
+                                            
                                         </select> 
                                     </div> 
                                 </div>
