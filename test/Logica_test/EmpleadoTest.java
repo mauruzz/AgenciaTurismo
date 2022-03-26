@@ -2,6 +2,7 @@ package Logica_test;
 
 import Logica.Cliente;
 import Logica.Empleado;
+import Logica.MedioPago;
 import Logica.PaqueteTuristico;
 import Logica.Persona;
 import Logica.ServicioTuristico;
@@ -31,11 +32,12 @@ public class EmpleadoTest {
     //<editor-fold defaultstate="collapsed" desc="VARIABLES GLOBALES">
     
     private Persona perso_1, perso_2, perso_3;
-    private Usuario usu_1;
-    private Empleado emple_1;
+    private Usuario usu_1, usu_2;
+    private Empleado emple_1, emple_2;
     private ServicioTuristico servTuri_1, servTuri_2, servTuri_3;
-    private PaqueteTuristico paqTuri_1;
     private Cliente clien_1, clien_2, clien_3;
+    private MedioPago medio_pago_1, medio_pago_2, medio_pago_3;
+    private Venta venta_1, venta_2, venta_3;
     
     /*      DATOS DEL EMPLEADOS     */
     
@@ -76,6 +78,8 @@ public class EmpleadoTest {
     
     String nombre_paq_2 = "Combo hoteles 2";
     
+    String nombre_paq_3 = "Combo hoteles 3";
+    
     double descuento_paq_tur = 0.9;     //  Se trata de un 10% de descuento por ser un paquete
     
     
@@ -111,9 +115,28 @@ public class EmpleadoTest {
     String usuario_1 = "usuario1";
     String contrasenia_1 = "usuario1";
     
-    String usuario_2 = "usuario1";
-    String contrasenia_2 = "usuario1";
+    String usuario_2 = "usuario2";
+    String contrasenia_2 = "usuario2";
     
+    
+    /*      DATOS VENTAS       */
+    
+    int cantidad_1 = 1;
+    int cantidad_2 = 2;
+    int cantidad_3 = 3;
+    
+    
+    /*      DATOS MEDIO PAGO       */
+    
+    String nombre_medio_1 = "medio de pago 1";
+    double descuento_1 = 10;
+    
+    String nombre_medio_2 = "medio de pago 2";
+    double descuento_2 = 20;
+    
+    String nombre_medio_3 = "medio de pago 3";
+    double descuento_3 = 30;
+        
     
     /*      FECHAS      */
     
@@ -148,9 +171,11 @@ public class EmpleadoTest {
         perso_2 = new Persona (id_2, nombre_perso_2, apellido_perso_2, direccion_perso_2, dni_perso_2 , nacionalidad_perso_2, celu_perso_2, mail_perso_2, fecha_2);
         perso_3 = new Persona (id_3, nombre_perso_3, apellido_perso_3, direccion_perso_3, dni_perso_3 , nacionalidad_perso_3, celu_perso_3, mail_perso_3, fecha_3);
         
-        usu_1 = new Usuario (1, "josesito", "perez123");
+        usu_1 = new Usuario (id_1, usuario_1, contrasenia_1);
+        usu_2 = new Usuario (id_2, usuario_2, contrasenia_2);
         
         emple_1 = new Empleado (id_1, cargo_1, sueldo_1, habilitado_1, usu_1, perso_1, null);
+        emple_2 = new Empleado (id_2, cargo_2, sueldo_2, habilitado_2, usu_2, perso_2, null);
         
         servTuri_1 = new ServicioTuristico (id_1, nombre_serv_1, descripcion_serv_1, destino_serv_1, costo_1, habilitado_1, fecha_1, /*List<PaqueteTuristico> listaPaquetes*/null, /*List<Venta> listaVentas*/null);
         servTuri_2 = new ServicioTuristico (id_2, nombre_serv_2, descripcion_serv_2, destino_serv_2, costo_2, habilitado_2, fecha_2, /*List<PaqueteTuristico> listaPaquetes*/null, /*List<Venta> listaVentas*/null);
@@ -160,7 +185,13 @@ public class EmpleadoTest {
         clien_2 = new Cliente (id_2, habilitado_2, perso_2, null);
         clien_3 = new Cliente (id_3, habilitado_3, perso_3, null);
         
-          
+        medio_pago_1 = new MedioPago (id_1, nombre_medio_1, habilitado_1, descuento_1);
+        medio_pago_2 = new MedioPago (id_2, nombre_medio_2, habilitado_2, descuento_2);
+        medio_pago_3 = new MedioPago (id_3, nombre_medio_3, habilitado_3, descuento_3);
+        
+        venta_1 = new Venta(id_1, cantidad_1, fecha_1, medio_pago_1);
+        venta_2 = new Venta(id_2, cantidad_2, fecha_2, medio_pago_2);
+        venta_3 = new Venta(id_3, cantidad_3, fecha_3, medio_pago_3);
     
     }
     
@@ -170,6 +201,32 @@ public class EmpleadoTest {
         //      PARA ELIMINAR LAS INSTANCIAS DE TODAS LAS CLASES SOLO HAY QUE APUNTAR TODO A NULL
         //      LA JVM SE ENCARGA DE BORRAR TODOS LOS DATOS A LOS QUE NO SE APUNTAN CON EL GARBAGE COLLECTOR
         //      System.gc();
+        
+        perso_1 = null;
+        perso_2 = null;
+        perso_3 = null;
+        
+        usu_1 = null;
+        usu_2 = null;
+        
+        emple_1 = null;
+        emple_2 = null;
+        
+        servTuri_1 = null;
+        servTuri_2 = null;
+        servTuri_3 = null;
+        
+        clien_1 = null;
+        clien_2 = null;
+        clien_3 = null;
+        
+        medio_pago_1 = null;
+        medio_pago_2 = null;
+        medio_pago_3 = null;
+        
+        venta_1 = null;
+        venta_2 = null;
+        venta_3 = null;
         
     }
     
@@ -236,8 +293,8 @@ public class EmpleadoTest {
     public void testGetListaServiciosHabilitados() {
         
         /*      CREANDO ESCENARIO       */
-        List<ServicioTuristico> listaServTuriHabilitados = new ArrayList<ServicioTuristico> ();
-        List<ServicioTuristico> listaServTuri = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_1, servTuri_2, servTuri_3)); //El 3er ServicioTuristico esta deshabilitado
+        List<ServicioTuristico> listaServTuriHabilitados = new ArrayList<> ();
+        List<ServicioTuristico> listaServTuri = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2, servTuri_3)); //El 3er ServicioTuristico esta deshabilitado
         
         /*      EJECUCIÓN       */
         
@@ -304,7 +361,7 @@ public class EmpleadoTest {
         /*      CREANDO ESCENARIO       */
         
         double costo = 0;
-        List<ServicioTuristico> listaServTuri = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_1, servTuri_2)); //El 3er ServicioTuristico esta deshabilitado
+        List<ServicioTuristico> listaServTuri = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2)); //El 3er ServicioTuristico esta deshabilitado
         PaqueteTuristico paqTuri = new PaqueteTuristico ();
         
         costo = (servTuri_1.getCosto_servicio() + servTuri_2.getCosto_servicio()) * descuento_paq_tur;      //  Calculo el costo del paquete "a mano"
@@ -327,16 +384,16 @@ public class EmpleadoTest {
         
         /*      CREANDO ESCENARIO       */
         
-        List<ServicioTuristico> listaServTuri_1 = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_1, servTuri_2));
-        List<ServicioTuristico> listaServTuri_2 = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_2, servTuri_3));
+        List<ServicioTuristico> listaServTuri_1 = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2));
+        List<ServicioTuristico> listaServTuri_2 = new ArrayList<> (Arrays.asList(servTuri_2, servTuri_3));
         
         PaqueteTuristico paqTuri_1, paqTuri_2 = new PaqueteTuristico ();
         paqTuri_1 = emple_1.crearPaqueteTuristico(nombre_paq_1, descuento_paq_tur, listaServTuri_1);
         paqTuri_2 = emple_1.crearPaqueteTuristico(nombre_paq_2, descuento_paq_tur, listaServTuri_2);
         paqTuri_2.setHabilitado(false);     //  Deshabilito el 2do paquete turistico
         
-        List<PaqueteTuristico> listaPaqTuri = new ArrayList<PaqueteTuristico> (Arrays.asList(paqTuri_1, paqTuri_2)); //El 3er ServicioTuristico esta deshabilitado
-        List<PaqueteTuristico> listaPaqTuriHabilitados = new ArrayList<PaqueteTuristico> ();
+        List<PaqueteTuristico> listaPaqTuri = new ArrayList<> (Arrays.asList(paqTuri_1, paqTuri_2)); //El 3er ServicioTuristico esta deshabilitado
+        List<PaqueteTuristico> listaPaqTuriHabilitados = new ArrayList<> ();
         
         /*      EJECUCIÓN       */
         
@@ -356,7 +413,7 @@ public class EmpleadoTest {
     public void testEliminarLogicoPaqueteTuristico() {
         
         /*      CREANDO ESCENARIO       */
-        List<ServicioTuristico> listaServTuri = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_1, servTuri_2));
+        List<ServicioTuristico> listaServTuri = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2));
         PaqueteTuristico paqTuri = emple_1.crearPaqueteTuristico(nombre_paq_1, descuento_paq_tur, listaServTuri);
                 
         /*      EJECUCIÓN       */
@@ -374,8 +431,8 @@ public class EmpleadoTest {
         
         /*      CREANDO ESCENARIO       */
         
-        List<ServicioTuristico> listaServTuri_1 = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_1, servTuri_2));
-        List<ServicioTuristico> listaServTuri_2 = new ArrayList<ServicioTuristico> (Arrays.asList(servTuri_2, servTuri_3));
+        List<ServicioTuristico> listaServTuri_1 = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2));
+        List<ServicioTuristico> listaServTuri_2 = new ArrayList<> (Arrays.asList(servTuri_2, servTuri_3));
         PaqueteTuristico paqTuri = emple_1.crearPaqueteTuristico(nombre_paq_1, descuento_paq_tur, listaServTuri_1);
         
         double costo = ( servTuri_2.getCosto_servicio() + servTuri_3.getCosto_servicio() ) * descuento_paq_tur;
@@ -543,8 +600,8 @@ public class EmpleadoTest {
         
         /*      CREANDO ESCENARIO       */
         
-        List<Cliente> listaClientes = new ArrayList<Cliente> (Arrays.asList(clien_1, clien_2, clien_3));    // El 3er cliente no esta habilitado
-        List<Cliente> listaClientesHabilitados = new ArrayList<Cliente> ();
+        List<Cliente> listaClientes = new ArrayList<> (Arrays.asList(clien_1, clien_2, clien_3));    // El 3er cliente no esta habilitado
+        List<Cliente> listaClientesHabilitados = new ArrayList<> ();
         /*      EJECUCIÓN       */
         
         listaClientesHabilitados = emple_1.getListaClientesHabilitados(listaClientes);
@@ -621,95 +678,195 @@ public class EmpleadoTest {
         
         /*      CREANDO ESCENARIO       */
         
-        Persona perso = new Persona ();
-        perso = emple_1.crearPersona(nombre_perso_1, apellido_perso_1, direccion_perso_1, dni_perso_1, fecha_1, nacionalidad_perso_1, celu_perso_1, mail_perso_1);
+        Venta venta = new Venta ();
+        
+        /*      EJECUCIÓN       */
+        
+        venta = emple_1.crearVenta(fecha_1, cantidad_1, medio_pago_1);
+                
+        /*      PRUEBAS     */
+        
+        assertFalse(venta == null);
+        assertEquals(fecha_1, venta.getFecha_venta());
+        assertEquals(cantidad_1, venta.getCantidad());
+        assertThat(venta.getMedio_pago(), is(medio_pago_1));
+        
+    }
+    
+    @Test
+    public void testGetClienteFromVenta() {
+        
+        /*      CREANDO ESCENARIO       */
+        
+        //  Creo listas de ventas para asignarselas a cada cliente
+        List<Venta> listaVentas_1 = new ArrayList<> (Arrays.asList(venta_1));
+        List<Venta> listaVentas_2 = new ArrayList<> ();
+        List<Venta> listaVentas_3 = new ArrayList<> (Arrays.asList(venta_2, venta_3));
+        
+        clien_1.setListaVentas(listaVentas_1);
+        clien_2.setListaVentas(listaVentas_2);
+        clien_3.setListaVentas(listaVentas_3);
+        
+        //Creo lista de clientes
+        List<Cliente> listaClientes_1 = new ArrayList<> (Arrays.asList(clien_1, clien_2, clien_3)); 
+        List<Cliente> listaClientes_2 = new ArrayList<> (Arrays.asList(clien_1, clien_2)); 
+        
         Cliente clien = new Cliente ();
         
         /*      EJECUCIÓN       */
         
-        clien = emple_1.crearCliente(perso);
+        clien = emple_1.getClienteFromVenta(venta_3, listaClientes_1);
                 
         /*      PRUEBAS     */
         
         assertFalse(clien == null);
-        assertEquals(nombre_perso_1, clien.getPersona().getNombre());
-        assertEquals(apellido_perso_1, clien.getPersona().getApellido());
-        assertEquals(direccion_perso_1, clien.getPersona().getDireccion());
-        assertThat(clien.getPersona().getDni(), is(dni_perso_1));
-        assertEquals(fecha_1, clien.getPersona().getFecha_nacimiento());
-        assertEquals(nacionalidad_perso_1, clien.getPersona().getNacionalidad());
-        assertEquals(celu_perso_1, clien.getPersona().getCelular());
-        assertEquals(mail_perso_1, clien.getPersona().getEmail());
-        assertTrue(clien.isHabilitado());
+        assertTrue(clien.getListaVentas().contains(venta_3));
         
-    }
-    
-    @Test
-    public void testEliminarLogicoCliente() {
-        
-        /*      CREANDO ESCENARIO       */
-        
-        Persona perso = new Persona ();
-        perso = emple_1.crearPersona(nombre_perso_1, apellido_perso_1, direccion_perso_1, dni_perso_1, fecha_1, nacionalidad_perso_1, celu_perso_1, mail_perso_1);
-        Cliente clien = new Cliente ();
         
         /*      EJECUCIÓN       */
         
-        clien = emple_1.eliminarLogicoCliente(clien);
+        clien = emple_1.getClienteFromVenta(venta_3, listaClientes_2);
                 
         /*      PRUEBAS     */
         
-        assertFalse(clien == null);
-        assertFalse(clien.isHabilitado());
-    }
-    
-    @Test
-    public void testEditarCliente() {
+        assertTrue(clien == null);
         
-        /*      CREANDO ESCENARIO       */
+        /*      Reset de variables globales utilizadas      */
         
-        Persona perso = new Persona ();
-        perso = emple_1.crearPersona(nombre_perso_1, apellido_perso_1, direccion_perso_1, dni_perso_1, fecha_1, nacionalidad_perso_1, celu_perso_1, mail_perso_1);
-        Cliente clien = new Cliente ();
-        
-        /*      EJECUCIÓN       */
-        
-        clien = emple_1.editarCliente(id_1, perso_2);          
-        
-        /*      PRUEBAS     */
-        
-        assertFalse(clien == null);
-        assertEquals(nombre_perso_2, clien.getPersona().getNombre());
-        assertEquals(apellido_perso_2, clien.getPersona().getApellido());
-        assertEquals(direccion_perso_2, clien.getPersona().getDireccion());
-        assertThat(clien.getPersona().getDni(), is(dni_perso_2));
-        assertEquals(fecha_2, clien.getPersona().getFecha_nacimiento());
-        assertEquals(nacionalidad_perso_2, clien.getPersona().getNacionalidad());
-        assertEquals(celu_perso_2, clien.getPersona().getCelular());
-        assertEquals(mail_perso_2, clien.getPersona().getEmail());
-        assertTrue(clien.isHabilitado());
+        clien_1.setListaVentas(null);
+        clien_2.setListaVentas(null);
+        clien_3.setListaVentas(null);
         
     }
     
     @Test
-    public void testGetListaClientesHabilitados() {
+    public void testGetEmpleadoFromVenta() {
         
         /*      CREANDO ESCENARIO       */
         
-        List<Cliente> listaClientes = new ArrayList<Cliente> (Arrays.asList(clien_1, clien_2, clien_3));    // El 3er cliente no esta habilitado
-        List<Cliente> listaClientesHabilitados = new ArrayList<Cliente> ();
+        //  Creo listas de ventas para asignarselas a cada empleado
+        List<Venta> listaVentas_1 = new ArrayList<> (Arrays.asList(venta_1));
+        List<Venta> listaVentas_2 = new ArrayList<> (Arrays.asList(venta_2, venta_3));
+        
+        emple_1.setListaVentas(listaVentas_1);
+        emple_2.setListaVentas(listaVentas_2);
+        
+        //Creo lista de clientes
+        List<Empleado> listaEmpleados_1 = new ArrayList<> (Arrays.asList(emple_1, emple_2)); 
+        List<Empleado> listaEmpleados_2 = new ArrayList<> (Arrays.asList(emple_1)); 
+        
+        Empleado emple = new Empleado ();
+        
         /*      EJECUCIÓN       */
         
-        listaClientesHabilitados = emple_1.getListaClientesHabilitados(listaClientes);
-        
+        emple = emple_1.getEmpleadoFromVenta(venta_3, listaEmpleados_1);
+                
         /*      PRUEBAS     */
         
-        for (Cliente clien : listaClientesHabilitados) {
-            assertTrue(clien.isHabilitado());     //  Todos los clientes tienen que estas habilitados (en "true")
-        }
+        assertFalse(emple == null);
+        assertTrue(emple.getListaVentas().contains(venta_3));
         
-        assertFalse(listaClientesHabilitados == null);
-        assertFalse(listaClientesHabilitados.contains(clien_3));
+        
+        /*      EJECUCIÓN       */
+        
+        emple = emple_1.getEmpleadoFromVenta(venta_3, listaEmpleados_2);
+                
+        /*      PRUEBAS     */
+        
+        assertTrue(emple == null);
+        
+        /*      Reset de variables globales utilizadas      */
+        
+        emple_1.setListaVentas(null);
+        emple_2.setListaVentas(null);
+        
+    }
+    
+    @Test
+    public void testGetServicioFromVenta() {
+        
+        /*      CREANDO ESCENARIO       */
+        
+        //  Creo listas de ventas para asignarselas a cada servicio
+        List<Venta> listaVentas_1 = new ArrayList<> (Arrays.asList(venta_1));
+        List<Venta> listaVentas_2 = new ArrayList<> (Arrays.asList(venta_2, venta_3));
+        
+        servTuri_1.setListaVentas(listaVentas_1);
+        servTuri_2.setListaVentas(listaVentas_2);
+        servTuri_3.setListaVentas(null);
+        
+        //  Creo lista de servicios
+        List<ServicioTuristico> listaServiciosTuristicos_1 = new ArrayList<> (Arrays.asList(servTuri_1)); 
+        List<ServicioTuristico> listaServiciosTuristicos_2 = new ArrayList<> (Arrays.asList(servTuri_2, servTuri_3)); 
+        
+        ServicioTuristico servTuri = new ServicioTuristico ();
+        
+        /*      EJECUCIÓN       */
+        
+        servTuri = emple_1.getServicioFromVenta(venta_3, listaServiciosTuristicos_2);
+                
+        /*      PRUEBAS     */
+        
+        assertFalse(servTuri == null);
+        assertTrue(servTuri.getListaVentas().contains(venta_3));
+        
+        
+        /*      EJECUCIÓN       */
+        
+        servTuri = emple_1.getServicioFromVenta(venta_3, listaServiciosTuristicos_1);
+                
+        /*      PRUEBAS     */
+        
+        assertTrue(servTuri == null);
+        
+    }
+    
+    @Test
+    public void testGetPaqueteFromVenta() {
+        
+        /*      CREANDO ESCENARIO       */
+        
+        //  Creo listas de servicios y se las asigno a paquetes
+        List<ServicioTuristico> listaServTuri_1 = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2));
+        List<ServicioTuristico> listaServTuri_2 = new ArrayList<> (Arrays.asList(servTuri_2, servTuri_3));
+        List<ServicioTuristico> listaServTuri_3 = new ArrayList<> (Arrays.asList(servTuri_1, servTuri_2, servTuri_3));
+        
+        PaqueteTuristico paqTuri_1, paqTuri_2, paqTuri_3 = new PaqueteTuristico ();
+        paqTuri_1 = emple_1.crearPaqueteTuristico(nombre_paq_1, descuento_paq_tur, listaServTuri_1);
+        paqTuri_2 = emple_1.crearPaqueteTuristico(nombre_paq_2, descuento_paq_tur, listaServTuri_2);
+        paqTuri_3 = emple_1.crearPaqueteTuristico(nombre_paq_3, descuento_paq_tur, listaServTuri_3);
+        
+        //  Creo listas de ventas para asignarselas a cada paquete
+        List<Venta> listaVentas_1 = new ArrayList<> (Arrays.asList(venta_1));
+        List<Venta> listaVentas_2 = new ArrayList<> (Arrays.asList(venta_2, venta_3));
+        
+        paqTuri_1.setListaVentas(listaVentas_1);
+        paqTuri_2.setListaVentas(listaVentas_2);
+        paqTuri_3.setListaVentas(null);
+        
+        //  Creo lista de paquetes
+        List<PaqueteTuristico> listaPaquetesTuristicos_1 = new ArrayList<PaqueteTuristico> (Arrays.asList(paqTuri_1)); 
+        List<PaqueteTuristico> listaPaquetesTuristicos_2 = new ArrayList<PaqueteTuristico> (Arrays.asList(paqTuri_2, paqTuri_3)); 
+        
+        PaqueteTuristico paqTuri = new PaqueteTuristico ();
+        
+        /*      EJECUCIÓN       */
+        
+        paqTuri = emple_1.getPaqueteFromVenta(venta_3, listaPaquetesTuristicos_2);
+                
+        /*      PRUEBAS     */
+        
+        assertFalse(paqTuri == null);
+        assertTrue(paqTuri.getListaVentas().contains(venta_3));
+        
+        
+        /*      EJECUCIÓN       */
+        
+        paqTuri = emple_1.getPaqueteFromVenta(venta_3, listaPaquetesTuristicos_1);
+                
+        /*      PRUEBAS     */
+        
+        assertTrue(paqTuri == null);
         
     }
     
