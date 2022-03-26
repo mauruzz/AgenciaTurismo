@@ -4,7 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/PaqueteTuristico.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/web/servicio.jsp</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Controladora.java</file>
+            <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Servlets/ServletServicioTuristico.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/src/java/Logica/Empleado.java</file>
             <file>file:/D:/Mauro/Java/TP%20FINAL/AgenciaTurismo/test/Logica_test/EmpleadoTest.java</file>
         </group>

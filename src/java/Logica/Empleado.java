@@ -297,6 +297,7 @@ public class Empleado implements Serializable {
         servTuri.setDestino_servicio(destino);
         servTuri.setCosto_servicio(costo);
         servTuri.setFecha_servicio(fecha);
+        servTuri.setHabilitado(true);
         
         return servTuri;
     }
@@ -379,6 +380,7 @@ public class Empleado implements Serializable {
         paqTuri.setNombre(nombre);
         paqTuri.setLista_servicios(listaServicios);
         paqTuri.setCosto_paquete(costo);
+        paqTuri.setHabilitado(true);
         
         return paqTuri;
     }
